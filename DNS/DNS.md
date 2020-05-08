@@ -2,7 +2,7 @@
 
 ## **Installing bind9**
 
-We have to install the server and it's utilities to run the bind9 DNS server.
+We had to install the server and it's utilities to run the bind9 DNS server.
 
 ```
 apt install bind9
@@ -10,13 +10,16 @@ apt install bind9
 
 ## **Change default and global options**
 
-We change the default configuration in ```/etc/default/bind9``` to run the server in IPv4 ```-4``` mode only.
+We changed the default configuration in ```/etc/default/bind9``` to run the server in IPv4 ```-4``` mode only.
 
 ```
 OPTIONS="-4 -u bind"
 ```
 
-We update the global options in ```/etc/bind/named.conf.options```.
+We updated the global options in ```/etc/bind/named.conf.options```.
+The trusted section marks the ip addresses of our SDI servers as trusted.
+This is important since we only allow recursive requests from trusted ip addresses.
+See ```allow-recursion { trusted; };```
 
 ```
 acl "trusted" {
@@ -48,7 +51,7 @@ options {
 };
 ```
 
-To apply the configuration changes we reload the server. 
+To apply the configuration changes we reloaded the server. 
 
 ```
 service bind9 reload
@@ -56,7 +59,8 @@ service bind9 reload
 
 ## **Zones configuration**
 
-We setup the forward lookup zone in ```/etc/bind/zones/db.mi.hdm-stuttgart.de```. This maps hostnames to IPv4 adresses.
+We set up the forward lookup zone in ```/etc/bind/zones/db.mi.hdm-stuttgart.de```. This maps hostnames to IPv4 adresses. It is to be mentioned here that you have to increase
+the serial number of the document each time you save changes. Otherwise the changes will not be loaded at the next server reload.
 
 ```
 $TTL    604800
@@ -77,7 +81,7 @@ www8-1.mi.hdm-stuttgart.de.    IN      CNAME   ns8.mi.hdm-stuttgart.de.
 www8-2.mi.hdm-stuttgart.de.    IN      CNAME   ns8.mi.hdm-stuttgart.de.
 ```
 
-For the reverse lookup zone we configure ```/etc/bind/zones/db.141.62.75```.
+For the reverse lookup zone we configured ```/etc/bind/zones/db.141.62.75```.
 
 ```
 $TTL    604800
@@ -94,7 +98,7 @@ $TTL    604800
 108   IN      PTR     sdi8a.mi.hdm-stuttgart.de.
 ```
 
-We need to add the new zones in ```/etc/bind/named.conf.local```.
+We needed to add the new zones in ```/etc/bind/named.conf.local```.
 
 ```
 zone "mi.hdm-stuttgart.de"{
@@ -110,20 +114,20 @@ zone "75.62.141.in-addr.arpa" {
 
 ## **Error handling**
 
-To check the ```/etc/bind/named.conf.local````, we run the named-checkconf command.
+To check the ```/etc/bind/named.conf.local``` we executed the named-checkconf command.
 
 ```
 named-checkconf /etc/bind/named.conf.local
 ```
 
-And reload the bind9 service to apply the changes.
+And then we reloaded the bind9 service to apply the changes.
 
 ```
 service bind9 reload
 ```
 
 ## **Tests**
-### forward lookup
+### Forward lookup
 ```
 dig @141.62.75.108 sdi8a.mi.hdm-stuttgart.de
 ```
@@ -158,7 +162,7 @@ ns8.mi.hdm-stuttgart.de. 604800	IN	A	141.62.75.108
 ;; MSG SIZE  rcvd: 104
 ```
 
-### reverse lookup
+### Reverse lookup
 
 ```dig @141.62.75.108 -x 141.62.75.108```
 
@@ -192,7 +196,7 @@ ns8.mi.hdm-stuttgart.de. 604800	IN	A	141.62.75.108
 ;; MSG SIZE  rcvd: 128
 ```
 
-### recursive DNS query
+### Recursive DNS query
 
 ```dig @141.62.75.108 heise.de```
 
@@ -239,14 +243,14 @@ ns2.pop-hannover.net.	146284	IN	A	62.48.67.66
 
 ## **Mail exchange (MX) record configuration**
 
-We would like to use to send us emails, so to do that we have to configure the MX record in ```/etc/bind/zones/db.mi.hdm-stuttgart.de```. We use the *not well* configured mail server  ```mx1.hdm-stuttgart.de```.
+The last task was to configure the DNS server with a Mail Exchange entry for our domain. We did that by adding a MX record in ```/etc/bind/zones/db.mi.hdm-stuttgart.de```. We used the *not well* configured mail server  ```mx1.hdm-stuttgart.de```.
 
 ```
 ; mail servers mx records
 @       IN      MX      10      mx1.hdm-stuttgart.de.
 ```
 
-After restarting the service with ```service bind9 reload``` we can check the configuration with a ```dig```.
+After restarting the service with ```service bind9 reload``` we could check the configuration with a ```dig```.
 
 ```
 service bind9 reload
