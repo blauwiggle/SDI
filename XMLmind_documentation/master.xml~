@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<book version="5.1" xmlns="http://docbook.org/ns/docbook"
+<book version="5.1" xml:id="sdi_documentation"
+      xmlns="http://docbook.org/ns/docbook"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns:xila="http://www.w3.org/2001/XInclude/local-attributes"
       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9,26 +10,23 @@
       xmlns:html="http://www.w3.org/1999/xhtml"
       xmlns:db="http://docbook.org/ns/docbook">
   <info>
-    <title/>
+    <title>Documentation "Software Definded Infrastructure" in summer term
+    2020 (Group 8)</title>
 
     <author>
-      <personname><firstname/><surname/></personname>
-
-      <affiliation>
-        <orgname/>
-      </affiliation>
+      <personname><firstname>Michael</firstname><surname>Vanhee</surname></personname>
     </author>
 
-    <pubdate/>
+    <author>
+      <personname><firstname>Florian</firstname><surname>Skobowsky</surname></personname>
+    </author>
+
+    <author>
+      <personname><firstname>Niklas</firstname><surname>Vogt</surname></personname>
+    </author>
+
+    <pubdate>11.05.2020</pubdate>
   </info>
 
-  <chapter>
-    <title/>
-
-    <section>
-      <title/>
-
-      <para/>
-    </section>
-  </chapter>
+  <xi:include href="dns.xml" xpointer="element(/1)"/>
 </book>
