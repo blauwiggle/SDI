@@ -11,8 +11,48 @@
   <title>LDAP</title>
 
   <section>
-    <title/>
+    <title>Browse an existing LDAP Server</title>
 
-    <para/>
+    <para>We browsed the LDAP Server at <systemitem
+    class="domainname">ldap1.mi.hdm-stuttgart.de</systemitem> using <link
+    xlink:href="https://directory.apache.org/studio/">Apache Directory
+    Studio</link>. First we connected as anonymous user. Finding our names was
+    easy by just typing in <userinput>uid</userinput> and our respective
+    <userinput>HdM token</userinput> in the filter fields. Then we reconnected
+    with our user DNs. The difference was that we were now able to see our
+    enrolment numbers.</para>
+
+    <para>Using the <command>ldapsearch</command> tool wasn't too difficult.
+    We just had to install the <package>ldap-utils</package> package. Then we
+    reconfigured the <filename>ldap.conf</filename> file under
+    <filename>/etc/ldap</filename> with our server parameters. Then we could
+    just execute the following command: __TODO__</para>
+  </section>
+
+  <section>
+    <title>Set up an OpenLdap server</title>
+
+    <para>We installed the server by running:</para>
+
+    <screen>aptitude install dialog
+aptitude install slapd</screen>
+
+    <para>Afterwards we set the server's root DIT to
+    <code>dc=betrayer,dc=com</code> by using <command>dpkg-reconfigure
+    slapd</command>.</para>
+  </section>
+
+  <section>
+    <title>Populating the DIT</title>
+
+    <para>We populated our server with test data as described on the
+    respective <link
+    xlink:href="https://freedocs.mi.hdm-stuttgart.de/ldapCompanyLdif.html">slide</link>
+    in <link
+    xlink:href="https://freedocs.mi.hdm-stuttgart.de/">freedocs</link> using
+    the Apache Directory Studio. The export dump after doing this looked as
+    follows:</para>
+
+    <screen/>
   </section>
 </chapter>

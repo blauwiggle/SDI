@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>3. Populating the DIT</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="ldap_set_up_an_openldap_server.html" rel="prev" title="2. Set up an OpenLdap server" /><link href="ldap_testing_a_bind_operation_as_non_admin_user.html" rel="next" title="4. Testing a bind operation as non - admin user" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+    
+
+    <div id="wh-body">
+      <div class="wh-icon-menu" id="wh-menu"></div>
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
+          
+          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
+        </ul>
+        <div id="wh-toc-container">
+          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
+          <div id="wh-toc-pane">
+          </div>
+        </div>
+        
+        <div id="wh-search-container">
+          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
+          <div id="wh-search-pane">
+            <div id="wh-search-results">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator"></div>
+      <div id="wh-content">
+      <header></header><section class="section" id="ldap_populating_the_dit"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. Populating the DIT</h2></div></div></div><p>We populated our server with test data as described on the respective <a class="link" href="https://freedocs.mi.hdm-stuttgart.de/ldapCompanyLdif.html" target="_top">slide</a> in <a class="link" href="https://freedocs.mi.hdm-stuttgart.de/" target="_top">freedocs</a> using the Apache Directory Studio. The export dump after doing this looked as follows:</p><pre class="screen">version: 1
+
+dn: dc=betrayer,dc=com
+objectClass: dcObject
+objectClass: organization
+objectClass: top
+dc: betrayer
+o: betrayerOrg
+
+dn: cn=admin,dc=betrayer,dc=com
+objectClass: organizationalRole
+objectClass: simpleSecurityObject
+cn: admin
+userPassword:: e1NTSEF9OVNyTE5xNytTRDd1aWxBMXp0UFBMWS9GbENpNzdpUXg=
+description: LDAP administrator
+
+dn: ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: departments
+
+dn: ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: software
+
+dn: ou=financial,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: financial
+
+dn: ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: devel
+
+dn: ou=testing,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: testing
+
+dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Jim Bean
+sn: Bean
+givenName: Jim
+mail: bean@betrayer.com
+uid: bean
+userPassword:: ZTNOdFpEVjlZVmhLTDJKbFZrRjJURFJFTms5cE1GUkxjRGhqTTNvdllUWlFae
+ kJYZUhBPQ==
+
+dn: uid=smith,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Anne Smith
+sn: Smith
+givenName: Anne
+mail: smith@betrayer.com
+uid: smith
+userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
+</pre></section><footer></footer></div>
+    </div>
+
+    
+  </body></html>

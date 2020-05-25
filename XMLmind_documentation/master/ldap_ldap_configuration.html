@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>6. LDAP configuration</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="ldap_accessing_ldap_data_by_a_mail_client.html" rel="prev" title="5. Accessing LDAP data by a mail client" /><link href="ldap_filter_based_search.html" rel="next" title="7. Filter based search" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+    
+
+    <div id="wh-body">
+      <div class="wh-icon-menu" id="wh-menu"></div>
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
+          
+          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
+        </ul>
+        <div id="wh-toc-container">
+          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
+          <div id="wh-toc-pane">
+          </div>
+        </div>
+        
+        <div id="wh-search-container">
+          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
+          <div id="wh-search-pane">
+            <div id="wh-search-results">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator"></div>
+      <div id="wh-content">
+      <header></header><section class="section" id="ldap_ldap_configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both">6. LDAP configuration</h2></div></div></div><p>First, we enabled remote access for the admin user for the configuration database by creating a file with: </p><pre class="screen">dn: olcDatabase={0}config,cn=config
+	add: olcRootPW
+	olcRootPW: {SSHA}9SrLNq7+SD7uilA1ztPPLY/FlCi77iQx</pre><p> and executing it with:</p><pre class="screen">ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ~/add_olcRootPW.ldif</pre><p>Now we were able to login as <code class="systemitem">admin</code> to our configuration database. We set the <code class="code">olcLogLevel</code> attribute in <code class="code">cn=admin</code> to <code class="code">stats</code> and created a new attribute <code class="code">olcLogFile</code> with the value <code class="code">/var/log/ldap.log</code>. To configure the system to write all log messages to our specified file we created a file <code class="filename">/etc/rsyslog.d/slapd.conf</code> and filled it with: </p><pre class="screen">local4.*                        /var/log/ldap.log</pre><p>Then we restarted the <code class="code">rsyslog</code> service a got the desired result.</p></section><footer></footer></div>
+    </div>
+
+    
+  </body></html>
