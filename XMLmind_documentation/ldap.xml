@@ -364,4 +364,46 @@ shadow:         files ldap</screen>Next we shut down the <code>nscd</code>
     result showed that we were successful:<screen>uid=1(daemon) gid=1(daemon) Gruppen=1(daemon)
 </screen></para>
   </section>
+
+  <section xml:id="ldap_backup_and_restore">
+    <title>Backup and recovery / restore</title>
+
+    <para>First we set up a replica LDAP server on our B machine.</para>
+
+    <para>Then we created the backup LDIF files from our LDAP server on the A
+    machine, using the <command>slapcat</command> command:</para>
+
+    <screen>slapcat -n 0 -l config.ldif
+slapcat -n 1 -l data.ldif</screen>
+
+    <para>The <parameter>-n 0</parameter> parameter backups the configuration
+    database and the <parameter>-n 1</parameter> parameter the actual data
+    database.</para>
+
+    <para>To restore these data to our B machine LDAP server, we first stopped
+    the server, using:</para>
+
+    <screen>service slapd stop</screen>
+
+    <para>Then we restored the data from the backup LDIF files with the
+    <command>slapadd</command> command:</para>
+
+    <screen>slapadd -n 0 -F /etc/openldap/slapd.d -l ~/config.ldif
+slapadd -n 1 -F /etc/openldap/slapd.d -l ~/data.ldif</screen>
+
+    <para>The first parameter gives the path to the server's configuration
+    directory, the second one to the backup file.</para>
+
+    <para>Next, we made the user <code>openldap</code> the owner of the
+    folders, which now contained the configuration and actual user
+    data.</para>
+
+    <screen>chown -R openldap:openldap /etc/openldap/slapd.d
+chown -R openldap:openldap /var/lib/ldap</screen>
+
+    <para>Then we restarted the server and now it contained all the
+    configuration and user data of our server on the A machine.</para>
+
+    <screen>service slapd start</screen>
+  </section>
 </chapter>

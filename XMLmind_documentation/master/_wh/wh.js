@@ -517,7 +517,7 @@ return this;
 })(jQuery);
 var wh = (function () {
 var toc_entries = [
-["Documentation &quot;Software Definded Infrastructure&quot; in summer term 2020 (Group 8)","index.html",[
+["Documentation &quot;Software Defined Infrastructure&quot; in summer term 2020 (Group 8)","index.html",[
 ["DNS-bind","dns_bind.html",[
 ["Installing bind9","dns_bind_installing_bind9.html",null],
 ["Change default and global options","dns_bind_change_default_and_global_options.html",null],
@@ -539,7 +539,8 @@ var toc_entries = [
 ["LDAP configuration","ldap_ldap_configuration.html",null],
 ["Filter based search","ldap_filter_based_search.html",null],
 ["Extending an existing entry","ldap_extending_an_existing_entry.html",null],
-["LDAP based user login","ldap_ldap_based_user_login.html",null]
+["LDAP based user login","ldap_ldap_based_user_login.html",null],
+["Backup and recovery / restore","ldap_backup_and_restore.html",null]
 ]]
 ]]];
 var toc_initiallyCollapsed = false;
@@ -815,7 +816,7 @@ message = translation[index];
 }
 return message;
 }
-var storageId = "-1gnxbyol6d105";
+var storageId = "-zluoewzrz945";
 function storageSet(key, value) {
 window.sessionStorage.setItem(key + storageId, String(value));
 }

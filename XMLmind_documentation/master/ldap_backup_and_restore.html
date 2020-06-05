@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>10. Backup and recovery / restore</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="ldap_ldap_based_user_login.html" rel="prev" title="9. LDAP based user login" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+    
+
+    <div id="wh-body">
+      <div class="wh-icon-menu" id="wh-menu"></div>
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
+          
+          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
+        </ul>
+        <div id="wh-toc-container">
+          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
+          <div id="wh-toc-pane">
+          </div>
+        </div>
+        
+        <div id="wh-search-container">
+          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
+          <div id="wh-search-pane">
+            <div id="wh-search-results">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator"></div>
+      <div id="wh-content">
+      <header></header><section class="section" id="ldap_backup_and_restore"><div class="titlepage"><div><div><h2 class="title" style="clear: both">10. Backup and recovery / restore</h2></div></div></div><p>First we set up a replica LDAP server on our B machine.</p><p>Then we created the backup LDIF files from our LDAP server on the A machine, using the <span class="command"><strong>slapcat</strong></span> command:</p><pre class="screen">slapcat -n 0 -l config.ldif
+slapcat -n 1 -l data.ldif</pre><p>The <em class="parameter"><code>-n 0</code></em> parameter backups the configuration database and the <em class="parameter"><code>-n 1</code></em> parameter the actual data database.</p><p>To restore these data to our B machine LDAP server, we first stopped the server, using:</p><pre class="screen">service slapd stop</pre><p>Then we restored the data from the backup LDIF files with the <span class="command"><strong>slapadd</strong></span> command:</p><pre class="screen">slapadd -n 0 -F /etc/openldap/slapd.d -l ~/config.ldif
+slapadd -n 1 -F /etc/openldap/slapd.d -l ~/data.ldif</pre><p>The first parameter gives the path to the server's configuration directory, the second one to the backup file.</p><p>Next, we made the user <code class="code">openldap</code> the owner of the folders, which now contained the configuration and actual user data.</p><pre class="screen">chown -R openldap:openldap /etc/openldap/slapd.d
+chown -R openldap:openldap /var/lib/ldap</pre><p>Then we restarted the server and now it contained all the configuration and user data of our server on the A machine.</p><pre class="screen">service slapd start</pre></section><footer></footer></div>
+    </div>
+
+    
+  </body></html>

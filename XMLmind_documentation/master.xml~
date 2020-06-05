@@ -14,19 +14,24 @@
     2020 (Group 8)</title>
 
     <author>
-      <personname><firstname>Michael</firstname><surname>Vanhee</surname></personname>
+      <personname><firstname>Michael</firstname>
+      <surname>Vanhee</surname></personname>
     </author>
 
     <author>
-      <personname><firstname>Florian</firstname><surname>Skobowsky</surname></personname>
+      <personname><firstname>Florian</firstname>
+      <surname>Skobowsky</surname></personname>
     </author>
 
     <author>
-      <personname><firstname>Niklas</firstname><surname>Vogt</surname></personname>
+      <personname><firstname>Niklas</firstname>
+      <surname>Vogt</surname></personname>
     </author>
 
     <pubdate>11.05.2020</pubdate>
   </info>
 
   <xi:include href="dns.xml" xpointer="element(/1)"/>
+
+  <xi:include href="ldap.xml" xpointer="element(/1)"/>
 </book>
