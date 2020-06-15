@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>3. SSL / TLS support</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="apache_virtual_hosts.html" rel="prev" title="2. Virtual Hosts" /><link href="apache_ldap_authentication.html" rel="next" title="4. LDAP authentication" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+    
+
+    <div id="wh-body">
+      <div class="wh-icon-menu" id="wh-menu"></div>
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
+          
+          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
+        </ul>
+        <div id="wh-toc-container">
+          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
+          <div id="wh-toc-pane">
+          </div>
+        </div>
+        
+        <div id="wh-search-container">
+          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
+          <div id="wh-search-pane">
+            <div id="wh-search-results">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator"></div>
+      <div id="wh-content">
+      <header></header><section class="section" id="apache_ssl_tls_support"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. SSL / TLS support</h2></div></div></div><p>To provide a valid certificate for SSL / TSL, we created our own CA by generating a private key with:</p><pre class="screen">openssl genrsa -out rootCA.key 2048</pre><p> Then we created a certificate for the CA signed with that key:</p><pre class="screen">openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem</pre><p> We uploaded this certificate to our browsers so they would trust them.</p><p>Next, we created a private key for our server:</p><pre class="screen">openssl genrsa -out sdi8b.key 2048</pre><p> From this key, we generated a certificate signing request:</p><pre class="screen">openssl req -new -key sdi8b.key -out sdi8b.csr -config sdi8b-csr.conf</pre><p> Last, we created a valid server certificate from the signing request with:</p><pre class="screen">openssl x509 -req -in sdi8b.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out sdi8b.crt -days 500 -sha256 -extfile ca-csr.conf -extensions v3_req   </pre><p>The contents of the sdi8b-csr.conf and ca-csr.conf files were:</p><pre class="screen">#sdi8b-crs.conf
+
+[req]
+distinguished_name = sdi8b.mi.hdm-stuttgart.de
+req_extensions = v3_req
+prompt = no
+
+[sdi8b.mi.hdm-stuttgart.de]
+C = DE
+ST = BW
+L = Stuttgart
+O = HdM
+OU = MI
+CN = sdi8b.mi.hdm-stuttgart.de
+
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = sdi8b.mi.hdm-stuttgart.de</pre><pre class="screen">#ca-csr.conf
+
+[req]
+distinguished_name = sdi8b.mi.hdm-stuttgart.de
+req_extensions = v3_req
+prompt = no
+
+[sdi8b.mi.hdm-stuttgart.de]
+C = DE
+ST = BW
+L = Stuttgart
+O = HdM
+OU = MI
+CN = sdi8b.mi.hdm-stuttgart.de
+
+[v3_req]
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = sdi8b.mi.hdm-stuttgart.de</pre><p>We uploaded the server certificate and the server private key to <code class="filename">/etc/apache2/ssl/</code>.</p><p>To activate the ssl / tls service, we first loaded the ssl module with <span class="command"><strong>a2enmod ssl</strong></span>. Then we created a configuration file for the ssl site in the sites-available folder:</p><pre class="screen">&lt;VirtualHost *:443&gt;
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/sdi8b.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/sdi8b.key
+    #SSLCertificateChainFile /etc/apache2/ssl/chain.txt
+
+    ServerAdmin webmaster@localhost
+    ServerName sdi8b.mi.hdm-stuttgart.de
+    ServerAlias www.sdi8b.mi.hdm-stuttgart.de
+    DocumentRoot /var/www/sdi8b.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+ CustomLog ${APACHE_LOG_DIR}/access.log combined
+ 
+ Alias &quot;/doc&quot; &quot;/home/sdidoc&quot;
+ Alias &quot;/fs120&quot; &quot;/home/sdidoc&quot;
+ Alias &quot;/nv012&quot; &quot;/home/sdidoc&quot;
+ Alias &quot;/mv068&quot; &quot;/home/sdidoc&quot;
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;</pre><p>Finally, we enabled this site with <span class="command"><strong>a2ensite sdi8b.mi.hdm-stuttgart.de-ssl</strong></span>, restarted our server and now we could access our web server via https.</p></section><footer></footer></div>
+    </div>
+
+    
+  </body></html>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.1" xml:id="apache" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xila="http://www.w3.org/2001/XInclude/local-attributes"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:trans="http://docbook.org/ns/transclusion"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Apache Web Server</title>
+
+  <section xml:id="apache_first_steps">
+    <title>First steps</title>
+
+    <para>---PLACEHOLDER---</para>
+  </section>
+
+  <section xml:id="apache_virtual_hosts">
+    <title>Virtual Hosts</title>
+
+    <para>---PLACEHOLDER---</para>
+  </section>
+
+  <section xml:id="apache_ssl_tls_support">
+    <title>SSL / TLS support</title>
+
+    <para>To provide a valid certificate for SSL / TSL, we created our own CA
+    by generating a private key with:<screen>openssl genrsa -out rootCA.key 2048</screen>
+    Then we created a certificate for the CA signed with that key:<screen>openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem</screen>
+    We uploaded this certificate to our browsers so they would trust
+    them.</para>
+
+    <para>Next, we created a private key for our server:<screen>openssl genrsa -out sdi8b.key 2048</screen>
+    From this key, we generated a certificate signing request:<screen>openssl req -new -key sdi8b.key -out sdi8b.csr -config sdi8b-csr.conf</screen>
+    Last, we created a valid server certificate from the signing request
+    with:<screen>openssl x509 -req -in sdi8b.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out sdi8b.crt -days 500 -sha256 -extfile ca-csr.conf -extensions v3_req   </screen></para>
+
+    <para>The contents of the sdi8b-csr.conf and ca-csr.conf files
+    were:</para>
+
+    <screen>#sdi8b-crs.conf
+
+[req]
+distinguished_name = sdi8b.mi.hdm-stuttgart.de
+req_extensions = v3_req
+prompt = no
+
+[sdi8b.mi.hdm-stuttgart.de]
+C = DE
+ST = BW
+L = Stuttgart
+O = HdM
+OU = MI
+CN = sdi8b.mi.hdm-stuttgart.de
+
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
+
+    <screen>#ca-csr.conf
+
+[req]
+distinguished_name = sdi8b.mi.hdm-stuttgart.de
+req_extensions = v3_req
+prompt = no
+
+[sdi8b.mi.hdm-stuttgart.de]
+C = DE
+ST = BW
+L = Stuttgart
+O = HdM
+OU = MI
+CN = sdi8b.mi.hdm-stuttgart.de
+
+[v3_req]
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
+
+    <para>We uploaded the server certificate and the server private key to
+    <filename>/etc/apache2/ssl/</filename>.</para>
+
+    <para>To activate the ssl / tls service, we first loaded the ssl module
+    with <command>a2enmod ssl</command>. Then we created a configuration file
+    for the ssl site in the sites-available folder:<screen>&lt;VirtualHost *:443&gt;
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/sdi8b.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/sdi8b.key
+    #SSLCertificateChainFile /etc/apache2/ssl/chain.txt
+
+    ServerAdmin webmaster@localhost
+    ServerName sdi8b.mi.hdm-stuttgart.de
+    ServerAlias www.sdi8b.mi.hdm-stuttgart.de
+    DocumentRoot /var/www/sdi8b.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+ CustomLog ${APACHE_LOG_DIR}/access.log combined
+ 
+ Alias "/doc" "/home/sdidoc"
+ Alias "/fs120" "/home/sdidoc"
+ Alias "/nv012" "/home/sdidoc"
+ Alias "/mv068" "/home/sdidoc"
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;</screen></para>
+
+    <para>Finally, we enabled this site with <command>a2ensite
+    sdi8b.mi.hdm-stuttgart.de-ssl</command>, restarted our server and now we
+    could access our web server via https.</para>
+  </section>
+
+  <section xml:id="apache_ldap_authentication">
+    <title>LDAP authentication</title>
+
+    <para>The goal here was to set up a simple LDAP authentication for our web
+    server's manual directory. T achieve this, we first enabled the necessary
+    modules with <command>a2enmod ldap</command> and <command>a2enmod
+    authnz_ldap</command>.</para>
+
+    <para>After creating a corresponding user on our LDAP server running on
+    our A machine, we added the following lines to
+    <filename>/etc/apache2/conf-available/apache2-doc.conf</filename>:</para>
+
+    <screen>AuthName "Manual"
+	AuthBasicProvider ldap
+	AuthType Basic
+	AuthLDAPURL "ldap://sdi8a.mi.hdm-stuttgart.de/dc=betrayer,dc=com"</screen>
+
+    <para>After restarting the server, you are now required to provide user
+    credentials to access this directory under <systemitem
+    class="domainname">sdi8b.mi.hdm-stuttgart.de/manual</systemitem>.</para>
+  </section>
+
+  <section xml:id="apache_mysql_database_administration">
+    <title>MySQL database administration</title>
+
+    <para>---PLACEHOLDER---</para>
+  </section>
+
+  <section xml:id="apache_ldap_web_user_management">
+    <title>Providing WEB based user management to your LDAP Server</title>
+
+    <para>---PLACEHOLDER---</para>
+  </section>
+
+  <section xml:id="apache_publish_documentation">
+    <title>Publish your documentation</title>
+
+    <para>We uploaded our documentation to <filename>/home/sdidoc</filename>
+    and set up an alias for the URL path <filename>/doc</filename> to this
+    location by adding these lines to our site configuration files:<screen>Alias "/doc" "/home/sdidoc"
+
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;</screen>The documentation is now available under
+    <systemitem
+    class="domainname">https://sdi8b.mi.hdm-stuttgart.de/doc</systemitem>.</para>
+  </section>
+</chapter>

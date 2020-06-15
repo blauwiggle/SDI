@@ -541,6 +541,15 @@ var toc_entries = [
 ["Extending an existing entry","ldap_extending_an_existing_entry.html",null],
 ["LDAP based user login","ldap_ldap_based_user_login.html",null],
 ["Backup and recovery / restore","ldap_backup_and_restore.html",null]
+]],
+["Apache Web Server","apache.html",[
+["First steps","apache_first_steps.html",null],
+["Virtual Hosts","apache_virtual_hosts.html",null],
+["SSL / TLS support","apache_ssl_tls_support.html",null],
+["LDAP authentication","apache_ldap_authentication.html",null],
+["MySQL database administration","apache_mysql_database_administration.html",null],
+["Providing WEB based user management to your LDAP Server","apache_ldap_web_user_management.html",null],
+["Publish your documentation","apache_publish_documentation.html",null]
 ]]
 ]]];
 var toc_initiallyCollapsed = false;

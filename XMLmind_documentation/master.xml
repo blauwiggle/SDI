@@ -34,4 +34,6 @@
   <xi:include href="dns.xml" xpointer="element(/1)"/>
 
   <xi:include href="ldap.xml" xpointer="element(/1)"/>
+
+  <xi:include href="apache.xml" xpointer="element(/1)"/>
 </book>
