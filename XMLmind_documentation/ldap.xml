@@ -193,7 +193,7 @@ userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
     <title>Testing a bind operation as non - admin user</title>
 
     <para>We created a second profile binding with
-    <code>uid=beam,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com</code>
+    <code>uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com</code>
     and used it for the connection. It worked. We could now see the password
     of the user bean but not the ones of the other users.</para>
   </section>
@@ -206,7 +206,7 @@ userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
 
     <mediaobject>
       <imageobject>
-        <imagedata fileref="images/thunderbird.png" format="JPG" width="0"/>
+        <imagedata fileref="images/thunderbird.png" format="JPG" width="1500"/>
       </imageobject>
     </mediaobject>
   </section>
