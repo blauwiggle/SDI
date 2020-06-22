@@ -157,49 +157,49 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/1.png"/>
+          <imagedata fileref="images/1.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/2.png"/>
+          <imagedata fileref="images/2.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/3.png"/>
+          <imagedata fileref="images/3.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/4.png"/>
+          <imagedata fileref="images/4.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/5.png"/>
+          <imagedata fileref="images/5.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/6.png"/>
+          <imagedata fileref="images/6.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/7.png"/>
+          <imagedata fileref="images/7.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/8.png"/>
+          <imagedata fileref="images/8.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -210,7 +210,7 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/9.png"/>
+          <imagedata fileref="images/9.png" scale="40"/>
         </imageobject>
       </inlinemediaobject></para>
   </section>

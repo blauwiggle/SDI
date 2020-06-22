@@ -416,7 +416,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/cat%20hdm.png"/>
+          <imagedata fileref="../LDAP/images/cat%20hdm.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -424,7 +424,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/python%20hdm.png"/>
+          <imagedata fileref="../LDAP/images/python%20hdm.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -432,7 +432,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/cat%20sdi8b.png"/>
+          <imagedata fileref="../LDAP/images/cat%20sdi8b.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -440,7 +440,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/python%20sdi8b.png"/>
+          <imagedata fileref="../LDAP/images/python%20sdi8b.png" scale="50"/>
         </imageobject>
       </inlinemediaobject></para>
   </section>

@@ -147,7 +147,72 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
 
     <para>We want to run a MySQL DB server next to our Apache Webserver and
     manage it with phpmyadmin. To do so, we need to install the MySQL server
-    and phpmyadmin. </para>
+    and phpmyadmin.</para>
+
+    <screen>apt install mysql-server phpmyadmin</screen>
+
+    <para>After we execute <emphasis role="bold">dpkg-reconfigure</emphasis>
+    <emphasis role="bold">phpmyadmin </emphasis>we can follow the guided
+    setup.</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/1.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/2.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/3.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/4.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/5.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/6.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/7.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/8.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para>Now we can access <emphasis
+    role="bold">sdi8b.mi.hdm-stuttgart.de/phpmyadmin</emphasis> using our
+    login credentions <emphasis role="bold">phpmyadmin</emphasis> as username
+    and and <emphasis role="bold">sdi8b</emphasis> as password.:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/9.png" scale="50"/>
+        </imageobject>
+      </inlinemediaobject></para>
   </section>
 
   <section xml:id="apache_ldap_web_user_management">

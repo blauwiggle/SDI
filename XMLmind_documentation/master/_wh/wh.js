@@ -540,7 +540,8 @@ var toc_entries = [
 ["Filter based search","ldap_filter_based_search.html",null],
 ["Extending an existing entry","ldap_extending_an_existing_entry.html",null],
 ["LDAP based user login","ldap_ldap_based_user_login.html",null],
-["Backup and recovery / restore","ldap_backup_and_restore.html",null]
+["Backup and recovery / restore","ldap_backup_and_restore.html",null],
+["Accessing LDAP by a Python Application","ldap_ldap_python.html",null]
 ]],
 ["Apache Web Server","apache.html",[
 ["First steps","apache_first_steps.html",null],

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>7. Filter based search</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="ch02s06.html" rel="prev" title="6. LDAP configuration" /><link href="ch02s08.html" rel="next" title="8. Extending an existing entry" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+    
+
+    <div id="wh-body">
+      <div class="wh-icon-menu" id="wh-menu"></div>
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
+          
+          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
+        </ul>
+        <div id="wh-toc-container">
+          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
+          <div id="wh-toc-pane">
+          </div>
+        </div>
+        
+        <div id="wh-search-container">
+          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
+          <div id="wh-search-pane">
+            <div id="wh-search-results">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator"></div>
+      <div id="wh-content">
+      <header></header><section class="section" id="ldap_filter_based_search"><div class="titlepage"><div><div><h2 class="title" style="clear: both">7. Filter based search</h2></div></div></div><p>We searched for all users with a uid attribute value starting with the letter “b” by using this query:</p><pre class="screen">ldapsearch -x -b &quot;dc=betrayer,dc=com&quot; -s sub &quot;(uid=b*)&quot;</pre><p>and got the following result:</p><pre class="screen">mail: bean@betrayer.com
+givenName: Jim
+cn: Jim Bean
+sn: Bean
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1
+❯ ldapsearch -x -b &quot;dc=betrayer,dc=com&quot; -s sub &quot;(uid=b*)&quot;
+❯ ldapsearch -x -b &quot;dc=betrayer,dc=com&quot; -s sub &quot;(uid=b*)&quot;
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=betrayer,dc=com&gt; with scope subtree
+# filter: (uid=b*)
+# requesting: ALL
+#
+
+# bean, devel, software, departments, betrayer.com
+dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+uid: bean
+mail: bean@betrayer.com
+givenName: Jim
+cn: Jim Bean
+sn: Bean
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1</pre><p> Then we searched for all entries either with either a defined uid attribute or a ou attribute starting with letter “d” with this query:</p><pre class="screen">ldapsearch -x -b &quot;dc=betrayer,dc=com&quot; -s sub &quot;(|(ou=d*)(uid=*))&quot;
+</pre><p> The result was:</p><pre class="screen">departments, betrayer.com
+: ou=departments,dc=betrayer,dc=com
+: departments
+jectClass: organizationalUnit
+jectClass: top
+
+devel, software, departments, betrayer.com
+: ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+: devel
+jectClass: organizationalUnit
+jectClass: top
+
+bean, devel, software, departments, betrayer.com
+: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+d: bean
+il: bean@betrayer.com
+venName: Jim
+: Jim Bean
+: Bean
+jectClass: inetOrgPerson
+jectClass: organizationalPerson
+jectClass: person
+jectClass: top
+
+smith, devel, software, departments, betrayer.com
+: uid=smith,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+d: smith
+: Anne Smith
+: Smith
+jectClass: inetOrgPerson
+jectClass: organizationalPerson
+jectClass: person
+jectClass: top
+venName: Anne
+il: smith@betrayer.com
+
+search result
+arch: 2
+sult: 0 Success
+
+numResponses: 5
+numEntries: 4</pre></section><footer></footer></div>
+    </div>
+
+    
+  </body></html>
