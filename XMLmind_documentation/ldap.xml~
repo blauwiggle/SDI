@@ -206,7 +206,7 @@ userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
 
     <mediaobject>
       <imageobject>
-        <imagedata fileref="images/thunderbird.png" format="JPG" width="0"/>
+        <imagedata fileref="images/thunderbird.png" format="JPG" width="1500"/>
       </imageobject>
     </mediaobject>
   </section>
@@ -406,4 +406,25 @@ chown -R openldap:openldap /var/lib/ldap</screen>
 
     <screen>service slapd start</screen>
   </section>
+
+
+  <section xml:id="ldap_ldap_python">
+    <title>Accessing LDAP by a Python Application</title>
+    
+
+    <para>The task was to enable our <systemitem class="server">SDI8b
+    machine</systemitem> to handle users by querying our LDAP Server on our
+    <systemitem class="server">SDI8a machine</systemitem>. To achieve this we
+    installed the package <package>libpam-ldapd</package> and provided the
+    necessary data during the configuration process. The we told the system to
+    use the LDAP data by changing the following lines in
+    <filename>/etc/nsswitch.conf</filename>:<screen>passwd:         files ldap
+group:          files ldap
+shadow:         files ldap</screen>Next we shut down the <code>nscd</code>
+    deamon to prevent usage of invalid cached data. We restarted our VM and
+    then we tested the LDAP setup by executing:<screen>id bean</screen>The
+    result showed that we were successful:<screen>uid=1(daemon) gid=1(daemon) Gruppen=1(daemon)
+</screen></para>
+  </section>
+
 </chapter>

@@ -406,4 +406,42 @@ chown -R openldap:openldap /var/lib/ldap</screen>
 
     <screen>service slapd start</screen>
   </section>
+
+  <section xml:id="ldap_ldap_python">
+    <title>Accessing LDAP by a Python Application</title>
+
+    <para>Accessing LDAP by a Python Application.</para>
+
+    <para>Python Skript für den Zugriff auf den HdM LDAP:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="../LDAP/images/cat%20hdm.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para>Ergebnis HdM LDAP:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="../LDAP/images/python%20hdm.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para>Python Skipt für den Zugriff auf den SDI8 LDAP:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="../LDAP/images/cat%20sdi8b.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para>Ergebnis SDI8 LDAP:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="../LDAP/images/python%20sdi8b.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+  </section>
 </chapter>

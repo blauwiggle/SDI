@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter version="5.1" xml:id="ldap" xmlns="http://docbook.org/ns/docbook"
+<chapter version="5.1" xml:id="apache" xmlns="http://docbook.org/ns/docbook"
          xmlns:xlink="http://www.w3.org/1999/xlink"
          xmlns:xila="http://www.w3.org/2001/XInclude/local-attributes"
          xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8,402 +8,178 @@
          xmlns:m="http://www.w3.org/1998/Math/MathML"
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:db="http://docbook.org/ns/docbook">
-  <title>LDAP</title>
+  <title>Apache Web Server</title>
 
-  <section xml:id="ldap_browse_an_existing_ldap_server">
-    <title>Browse an existing LDAP Server</title>
+  <section xml:id="apache_first_steps">
+    <title>First steps</title>
 
-    <para>We browsed the LDAP Server at <systemitem
-    class="domainname">ldap1.mi.hdm-stuttgart.de</systemitem> using <link
-    xlink:href="https://directory.apache.org/studio/">Apache Directory
-    Studio</link>. First we connected as anonymous user. Finding our names was
-    easy by just typing in <userinput>uid</userinput> and our respective
-    <userinput>HdM token</userinput> in the filter fields. Then we reconnected
-    with our user DNs. The difference was that we were now able to see our
-    enrolment numbers.</para>
-
-    <para>Using the <command>ldapsearch</command> tool wasn't too difficult.
-    We just had to install the <package>ldap-utils</package> package. Then we
-    reconfigured the <filename>ldap.conf</filename> file under
-    <filename>/etc/ldap</filename> with our server parameters. Then we could
-    just execute for example the following command:</para>
-
-    <screen>ldapsearch -x -H ldap://ldap1.mi.hdm-stuttgart.de -b "dc=hdm-stuttgart,dc=de" -s sub "uid=fs120"</screen>
-
-    <screen># extended LDIF
-#
-# LDAPv3
-# base &lt;dc=hdm-stuttgart,dc=de&gt; with scope subtree
-# filter: uid=fs120
-# requesting: ALL
-#
-
-# fs120, userlist, hdm-stuttgart.de
-dn: uid=fs120,ou=userlist,dc=hdm-stuttgart,dc=de
-objectClass: hdmAccount
-objectClass: hdmStudent
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: shadowAccount
-objectClass: eduPerson
-uid: fs120
-mail: fs120@hdm-Stuttgart.de
-uidNumber: 62717
-cn: Skobowsky Florian Michael
-loginShell: /bin/sh
-hdmCategory: 1
-gidNumber: 100
-homeDirectory: /home/stud/f/fs120
-sn: Skobowsky
-
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 2
-# numEntries: 1
-❯ ldapsearch -x -H ldap://ldap1.mi.hdm-stuttgart.de -b "dc=hdm-stuttgart,dc=de" -s sub "uid=fs120"
-# extended LDIF
-#
-# LDAPv3
-# base &lt;dc=hdm-stuttgart,dc=de&gt; with scope subtree
-# filter: uid=fs120
-# requesting: ALL
-#
-
-# fs120, userlist, hdm-stuttgart.de
-dn: uid=fs120,ou=userlist,dc=hdm-stuttgart,dc=de
-objectClass: hdmAccount
-objectClass: hdmStudent
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: shadowAccount
-objectClass: eduPerson
-uid: fs120
-mail: fs120@hdm-Stuttgart.de
-uidNumber: 62717
-cn: Skobowsky Florian Michael
-loginShell: /bin/sh
-hdmCategory: 1
-gidNumber: 100
-homeDirectory: /home/stud/f/fs120
-sn: Skobowsky
-
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 2
-# numEntries: 1</screen>
+    <para>---PLACEHOLDER---</para>
   </section>
 
-  <section xml:id="ldap_set_up_an_openldap_server">
-    <title>Set up an OpenLdap server</title>
+  <section xml:id="apache_virtual_hosts">
+    <title>Virtual Hosts</title>
 
-    <para>We installed the server by running:</para>
-
-    <screen>aptitude install dialog
-aptitude install slapd</screen>
-
-    <para>Afterwards we set the server's root DIT to
-    <code>dc=betrayer,dc=com</code> by using <command>dpkg-reconfigure
-    slapd</command>.</para>
+    <para>---PLACEHOLDER---</para>
   </section>
 
-  <section xml:id="ldap_populating_the_dit">
-    <title>Populating the DIT</title>
+  <section xml:id="apache_ssl_tls_support">
+    <title>SSL / TLS support</title>
 
-    <para>We populated our server with test data as described on the
-    respective <link
-    xlink:href="https://freedocs.mi.hdm-stuttgart.de/ldapCompanyLdif.html">slide</link>
-    in <link
-    xlink:href="https://freedocs.mi.hdm-stuttgart.de/">freedocs</link> using
-    the Apache Directory Studio. The export dump after doing this looked as
-    follows:</para>
+    <para>To provide a valid certificate for SSL / TSL, we created our own CA
+    by generating a private key with:<screen>openssl genrsa -out rootCA.key 2048</screen>
+    Then we created a certificate for the CA signed with that key:<screen>openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem</screen>
+    We uploaded this certificate to our browsers so they would trust
+    them.</para>
 
-    <screen>version: 1
+    <para>Next, we created a private key for our server:<screen>openssl genrsa -out sdi8b.key 2048</screen>
+    From this key, we generated a certificate signing request:<screen>openssl req -new -key sdi8b.key -out sdi8b.csr -config sdi8b-csr.conf</screen>
+    Last, we created a valid server certificate from the signing request
+    with:<screen>openssl x509 -req -in sdi8b.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out sdi8b.crt -days 500 -sha256 -extfile ca-csr.conf -extensions v3_req   </screen></para>
 
-dn: dc=betrayer,dc=com
-objectClass: dcObject
-objectClass: organization
-objectClass: top
-dc: betrayer
-o: betrayerOrg
+    <para>The contents of the sdi8b-csr.conf and ca-csr.conf files
+    were:</para>
 
-dn: cn=admin,dc=betrayer,dc=com
-objectClass: organizationalRole
-objectClass: simpleSecurityObject
-cn: admin
-userPassword:: e1NTSEF9OVNyTE5xNytTRDd1aWxBMXp0UFBMWS9GbENpNzdpUXg=
-description: LDAP administrator
+    <screen>#sdi8b-crs.conf
 
-dn: ou=departments,dc=betrayer,dc=com
-objectClass: organizationalUnit
-objectClass: top
-ou: departments
+[req]
+distinguished_name = sdi8b.mi.hdm-stuttgart.de
+req_extensions = v3_req
+prompt = no
 
-dn: ou=software,ou=departments,dc=betrayer,dc=com
-objectClass: organizationalUnit
-objectClass: top
-ou: software
+[sdi8b.mi.hdm-stuttgart.de]
+C = DE
+ST = BW
+L = Stuttgart
+O = HdM<emphasis role="bold"/>
+OU = MI
+CN = sdi8b.mi.hdm-stuttgart.de
 
-dn: ou=financial,ou=departments,dc=betrayer,dc=com
-objectClass: organizationalUnit
-objectClass: top
-ou: financial
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
 
-dn: ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-objectClass: organizationalUnit
-objectClass: top
-ou: devel
+    <screen>#ca-csr.conf
 
-dn: ou=testing,ou=software,ou=departments,dc=betrayer,dc=com
-objectClass: organizationalUnit
-objectClass: top
-ou: testing
+[req]
+distinguished_name = sdi8b.mi.hdm-stuttgart.de
+req_extensions = v3_req
+prompt = no
 
-dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-objectClass: inetOrgPerson
-objectClass: organizationalPerson
-objectClass: person
-objectClass: top
-cn: Jim Bean
-sn: Bean
-givenName: Jim
-mail: bean@betrayer.com
-uid: bean
-userPassword:: ZTNOdFpEVjlZVmhLTDJKbFZrRjJURFJFTms5cE1GUkxjRGhqTTNvdllUWlFae
- kJYZUhBPQ==
+[sdi8b.mi.hdm-stuttgart.de]
+C = DE
+ST = BW
+L = Stuttgart
+O = HdM
+OU = MI
+CN = sdi8b.mi.hdm-stuttgart.de
 
-dn: uid=smith,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-objectClass: inetOrgPerson
-objectClass: organizationalPerson
-objectClass: person
-objectClass: top
-cn: Anne Smith
-sn: Smith
-givenName: Anne
-mail: smith@betrayer.com
-uid: smith
-userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
-</screen>
+[v3_req]
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
+
+    <para>We uploaded the server certificate and the server private key to
+    <filename>/etc/apache2/ssl/</filename>.</para>
+
+    <para>To activate the ssl / tls service, we first loaded the ssl module
+    with <command>a2enmod ssl</command>. Then we created a configuration file
+    for the ssl site in the sites-available folder:<screen>&lt;VirtualHost *:443&gt;
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/sdi8b.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/sdi8b.key
+    #SSLCertificateChainFile /etc/apache2/ssl/chain.txt
+
+    ServerAdmin webmaster@localhost
+    ServerName sdi8b.mi.hdm-stuttgart.de
+    ServerAlias www.sdi8b.mi.hdm-stuttgart.de
+    DocumentRoot /var/www/sdi8b.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+ CustomLog ${APACHE_LOG_DIR}/access.log combined
+ 
+ Alias "/doc" "/home/sdidoc"
+ Alias "/fs120" "/home/sdidoc"
+ Alias "/nv012" "/home/sdidoc"
+ Alias "/mv068" "/home/sdidoc"
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;</screen></para>
+
+    <para>Finally, we enabled this site with <command>a2ensite
+    sdi8b.mi.hdm-stuttgart.de-ssl</command>, restarted our server and now we
+    could access our web server via https.</para>
   </section>
 
-  <section xml:id="ldap_testing_a_bind_operation_as_non_admin_user">
-    <title>Testing a bind operation as non - admin user</title>
+  <section xml:id="apache_ldap_authentication">
+    <title>LDAP authentication</title>
 
-    <para>We created a second profile binding with
-    <code>uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com</code>
-    and used it for the connection. It worked. We could now see the password
-    of the user bean but not the ones of the other users.</para>
+    <para>The goal here was to set up a simple LDAP authentication for our web
+    server's manual directory. T achieve this, we first enabled the necessary
+    modules with <command>a2enmod ldap</command> and <command>a2enmod
+    authnz_ldap</command>.</para>
+
+    <para>After creating a corresponding user on our LDAP server running on
+    our A machine, we added the following lines to
+    <filename>/etc/apache2/conf-available/apache2-doc.conf</filename>:</para>
+
+    <screen>AuthName "Manual"
+	AuthBasicProvider ldap
+	AuthType Basic
+	AuthLDAPURL "ldap://sdi8a.mi.hdm-stuttgart.de/dc=betrayer,dc=com"</screen>
+
+    <para>After restarting the server, you are now required to provide user
+    credentials to access this directory under <systemitem
+    class="domainname">sdi8b.mi.hdm-stuttgart.de/manual</systemitem>.</para>
   </section>
 
-  <section xml:id="ldap_accessing_ldap_data_by_a_mail_client">
-    <title>Accessing LDAP data by a mail client</title>
+  <section xml:id="apache_mysql_database_administration">
+    <title>MySQL database administration</title>
 
-    <para>We configured our mail clients to use our LDAP Server for email
-    address lookup. The example image shows the result in Thunderbird:</para>
-
-    <mediaobject>
-      <imageobject>
-        <imagedata fileref="images/thunderbird.png" format="JPG" width="1500"/>
-      </imageobject>
-    </mediaobject>
+    <para>We want to run a MySQL DB server next to our Apache Webserver and
+    manage it with phpmyadmin. To do so, we need to install the MySQL server
+    and phpmyadmin. </para>
   </section>
 
-  <section xml:id="ldap_ldap_configuration">
-    <title>LDAP configuration</title>
+  <section xml:id="apache_ldap_web_user_management">
+    <title>Providing WEB based user management to your LDAP Server</title>
 
-    <para>First, we enabled remote access for the admin user for the
-    configuration database by creating a file with: <screen>dn: olcDatabase={0}config,cn=config
-	add: olcRootPW
-	olcRootPW: {SSHA}9SrLNq7+SD7uilA1ztPPLY/FlCi77iQx</screen> and executing it
-    with:<screen>ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ~/add_olcRootPW.ldif</screen></para>
+    <para>First we need to install the ldap-account-manager:</para>
 
-    <para>Now we were able to login as <systemitem
-    class="username">admin</systemitem> to our configuration database. We set
-    the <code>olcLogLevel</code> attribute in <code>cn=admin</code> to
-    <code>stats</code> and created a new attribute <code>olcLogFile</code>
-    with the value <code>/var/log/ldap.log</code>. To configure the system to
-    write all log messages to our specified file we created a file
-    <filename>/etc/rsyslog.d/slapd.conf</filename> and filled it with:
-    <screen>local4.*                        /var/log/ldap.log</screen>Then we
-    restarted the <code>rsyslog</code> service a got the desired
-    result.</para>
+    <screen>apt install ldap-account-manager</screen>
+
+    <para>Now we have to update the configuration file located under
+    /var/lib/ldap-account-manager/config/lam.conf</para>
+
+    <screen>admins: cn=admin,dc=betrayer,dc=com
+treesuffix: dc=betrayer,dc=com</screen>
+
+    <para>Now we can log in our web interface under <emphasis
+    role="bold">http://sdi8b.mi.hdm-stuttgart.de/lam</emphasis> using our LDAP
+    credentials <emphasis role="bold">admin</emphasis> and <emphasis
+    role="bold">sdi8b</emphasis>.</para>
   </section>
 
-  <section xml:id="ldap_filter_based_search">
-    <title>Filter based search</title>
+  <section xml:id="apache_publish_documentation">
+    <title>Publish your documentation</title>
 
-    <para>We searched for all users with a uid attribute value starting with
-    the letter “b” by using this query:<screen>ldapsearch -x -b "dc=betrayer,dc=com" -s sub "(uid=b*)"</screen>and
-    got the following result:<screen>mail: bean@betrayer.com
-givenName: Jim
-cn: Jim Bean
-sn: Bean
-objectClass: inetOrgPerson
-objectClass: organizationalPerson
-objectClass: person
-objectClass: top
+    <para>We uploaded our documentation to <filename>/home/sdidoc</filename>
+    and set up an alias for the URL path <filename>/doc</filename> to this
+    location by adding these lines to our site configuration files:<screen>Alias "/doc" "/home/sdidoc"
 
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 2
-# numEntries: 1
-❯ ldapsearch -x -b "dc=betrayer,dc=com" -s sub "(uid=b*)"
-❯ ldapsearch -x -b "dc=betrayer,dc=com" -s sub "(uid=b*)"
-# extended LDIF
-#
-# LDAPv3
-# base &lt;dc=betrayer,dc=com&gt; with scope subtree
-# filter: (uid=b*)
-# requesting: ALL
-#
-
-# bean, devel, software, departments, betrayer.com
-dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-uid: bean
-mail: bean@betrayer.com
-givenName: Jim
-cn: Jim Bean
-sn: Bean
-objectClass: inetOrgPerson
-objectClass: organizationalPerson
-objectClass: person
-objectClass: top
-
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 2
-# numEntries: 1</screen> Then we searched for all entries either with either a
-    defined uid attribute or a ou attribute starting with letter “d” with this
-    query:<screen>ldapsearch -x -b "dc=betrayer,dc=com" -s sub "(|(ou=d*)(uid=*))"
-</screen> The result was:<screen>departments, betrayer.com
-: ou=departments,dc=betrayer,dc=com
-: departments
-jectClass: organizationalUnit
-jectClass: top
-
-devel, software, departments, betrayer.com
-: ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-: devel
-jectClass: organizationalUnit
-jectClass: top
-
-bean, devel, software, departments, betrayer.com
-: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-d: bean
-il: bean@betrayer.com
-venName: Jim
-: Jim Bean
-: Bean
-jectClass: inetOrgPerson
-jectClass: organizationalPerson
-jectClass: person
-jectClass: top
-
-smith, devel, software, departments, betrayer.com
-: uid=smith,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-d: smith
-: Anne Smith
-: Smith
-jectClass: inetOrgPerson
-jectClass: organizationalPerson
-jectClass: person
-jectClass: top
-venName: Anne
-il: smith@betrayer.com
-
-search result
-arch: 2
-sult: 0 Success
-
-numResponses: 5
-numEntries: 4</screen></para>
-  </section>
-
-  <section xml:id="ldap_extending_an_existing_entry">
-    <title>Extending an existing entry</title>
-
-    <para>To add the <code>objectClass</code> <code>posixAccount</code> and
-    its according attributes <code>uidNumber</code>, <code>gidNumber</code>
-    and <code>homeDirectory</code> we created a ldif file with:<screen>dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
-changetype: modify
-add: homeDirectory
-homeDirectory: /home/bean
--
-add: uidNumber
-uidNumber: 1
--
-add: objectClass
-objectClass: posixAccount
--
-add: gidNumber
-gidNumber: 1
--</screen> Then we applied it with:<screen>ldapmodify -x -D "cn=admin,dc=betrayer,dc=com" -w sdi8a -H ldap:// -f ~/modify_bean.ldif</screen></para>
-  </section>
-
-  <section xml:id="ldap_ldap_based_user_login">
-    <title>LDAP based user login</title>
-
-    <para>The task was to enable our <systemitem class="server">SDI8b
-    machine</systemitem> to handle users by querying our LDAP Server on our
-    <systemitem class="server">SDI8a machine</systemitem>. To achieve this we
-    installed the package <package>libpam-ldapd</package> and provided the
-    necessary data during the configuration process. The we told the system to
-    use the LDAP data by changing the following lines in
-    <filename>/etc/nsswitch.conf</filename>:<screen>passwd:         files ldap
-group:          files ldap
-shadow:         files ldap</screen>Next we shut down the <code>nscd</code>
-    deamon to prevent usage of invalid cached data. We restarted our VM and
-    then we tested the LDAP setup by executing:<screen>id bean</screen>The
-    result showed that we were successful:<screen>uid=1(daemon) gid=1(daemon) Gruppen=1(daemon)
-</screen></para>
-  </section>
-
-  <section xml:id="ldap_backup_and_restore">
-    <title>Backup and recovery / restore</title>
-
-    <para>First we set up a replica LDAP server on our B machine.</para>
-
-    <para>Then we created the backup LDIF files from our LDAP server on the A
-    machine, using the <command>slapcat</command> command:</para>
-
-    <screen>slapcat -n 0 -l config.ldif
-slapcat -n 1 -l data.ldif</screen>
-
-    <para>The <parameter>-n 0</parameter> parameter backups the configuration
-    database and the <parameter>-n 1</parameter> parameter the actual data
-    database.</para>
-
-    <para>To restore these data to our B machine LDAP server, we first stopped
-    the server, using:</para>
-
-    <screen>service slapd stop</screen>
-
-    <para>Then we restored the data from the backup LDIF files with the
-    <command>slapadd</command> command:</para>
-
-    <screen>slapadd -n 0 -F /etc/openldap/slapd.d -l ~/config.ldif
-slapadd -n 1 -F /etc/openldap/slapd.d -l ~/data.ldif</screen>
-
-    <para>The first parameter gives the path to the server's configuration
-    directory, the second one to the backup file.</para>
-
-    <para>Next, we made the user <code>openldap</code> the owner of the
-    folders, which now contained the configuration and actual user
-    data.</para>
-
-    <screen>chown -R openldap:openldap /etc/openldap/slapd.d
-chown -R openldap:openldap /var/lib/ldap</screen>
-
-    <para>Then we restarted the server and now it contained all the
-    configuration and user data of our server on the A machine.</para>
-
-    <screen>service slapd start</screen>
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;</screen>The documentation is now available under
+    <systemitem
+    class="domainname">https://sdi8b.mi.hdm-stuttgart.de/doc</systemitem>.</para>
   </section>
 </chapter>

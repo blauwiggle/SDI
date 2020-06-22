@@ -50,7 +50,7 @@ prompt = no
 C = DE
 ST = BW
 L = Stuttgart
-O = HdM
+O = HdM<emphasis role="bold"/>
 OU = MI
 CN = sdi8b.mi.hdm-stuttgart.de
 
@@ -145,13 +145,93 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
   <section xml:id="apache_mysql_database_administration">
     <title>MySQL database administration</title>
 
-    <para>---PLACEHOLDER---</para>
+    <para>We want to run a MySQL DB server next to our Apache Webserver and
+    manage it with phpmyadmin. To do so, we need to install the MySQL server
+    and phpmyadmin.</para>
+
+    <screen>apt install mysql-server phpmyadmin</screen>
+
+    <para>After we execute <emphasis role="bold">dpkg-reconfigure</emphasis>
+    <emphasis role="bold">phpmyadmin </emphasis>we can follow the guided
+    setup.</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/1.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/2.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/3.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/4.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/5.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/6.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/7.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/8.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para>Now we can access <emphasis
+    role="bold">sdi8b.mi.hdm-stuttgart.de/phpmyadmin</emphasis> using our
+    login credentions <emphasis role="bold">phpmyadmin</emphasis> as username
+    and and <emphasis role="bold">sdi8b</emphasis> as password.:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/9.png"/>
+        </imageobject>
+      </inlinemediaobject></para>
   </section>
 
   <section xml:id="apache_ldap_web_user_management">
     <title>Providing WEB based user management to your LDAP Server</title>
 
-    <para>---PLACEHOLDER---</para>
+    <para>First we need to install the ldap-account-manager:</para>
+
+    <screen>apt install ldap-account-manager</screen>
+
+    <para>Now we have to update the configuration file located under
+    /var/lib/ldap-account-manager/config/lam.conf</para>
+
+    <screen>admins: cn=admin,dc=betrayer,dc=com
+treesuffix: dc=betrayer,dc=com</screen>
+
+    <para>Now we can log in our web interface under <emphasis
+    role="bold">http://sdi8b.mi.hdm-stuttgart.de/lam</emphasis> using our LDAP
+    credentials <emphasis role="bold">admin</emphasis> and <emphasis
+    role="bold">sdi8b</emphasis>.</para>
   </section>
 
   <section xml:id="apache_publish_documentation">
