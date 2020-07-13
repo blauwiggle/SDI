@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>7. Setting up the data folders</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="filecloud_installation.html" rel="prev" title="6. Nextcloud installation and configuration" /><link href="filecloud_memory_cache.html" rel="next" title="8. Configuring the memory cache" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+    
+
+    <div id="wh-body">
+      <div class="wh-icon-menu" id="wh-menu"></div>
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
+          
+          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
+        </ul>
+        <div id="wh-toc-container">
+          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
+          <div id="wh-toc-pane">
+          </div>
+        </div>
+        
+        <div id="wh-search-container">
+          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
+          <div id="wh-search-pane">
+            <div id="wh-search-results">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator"></div>
+      <div id="wh-content">
+      <header></header><section class="section" id="filecloud_data_folders"><div class="titlepage"><div><div><h2 class="title" style="clear: both">7. Setting up the data folders</h2></div></div></div><p>We moved the data folder to the <code class="filename">var</code> directory and renamed it to <code class="filename">nc_data</code>:</p><pre class="screen">mv /var/www/nextcloud/data /var/nc_data</pre><p>Then we created a script to correctly set the folder permissions. We copied it from the <a class="link" href="https://help.nextcloud.com/t/complete-nc-installation-on-debian-9-stretch-and-manual-update/21881" target="_top">Nextcloud tutorial page</a>: </p><pre class="screen">vi /var/www/nc_perm.sh</pre><pre class="screen">#!/bin/bash
+ncpath='/var/www/nextcloud'
+ncdata='/var/nc_data'
+htuser='www-data'
+htgroup='www-data'
+rootuser='root'
+
+printf &quot;Creating possible missing Directories\n&quot;
+mkdir -p $ncpath/data
+mkdir -p $ncpath/updater
+
+printf &quot;chmod Files and Directories\n&quot;
+find ${ncpath} -type f -print0 | xargs -0 chmod 0640
+find ${ncpath} -type d -print0 | xargs -0 chmod 0750
+find ${ncdata} -type f -print0 | xargs -0 chmod 0640
+find ${ncdata} -type d -print0 | xargs -0 chmod 0750
+
+printf &quot;chown Directories\n&quot;
+chown -R ${rootuser}:${htgroup} ${ncpath}
+chown -R ${htuser}:${htgroup} ${ncpath}/apps/
+chown -R ${htuser}:${htgroup} ${ncpath}/config/
+chown -R ${htuser}:${htgroup} ${ncdata}/
+chown -R ${htuser}:${htgroup} ${ncpath}/themes/
+chown -R ${htuser}:${htgroup} ${ncpath}/updater/
+
+chmod +x ${ncpath}/occ
+
+printf &quot;chmod/chown .htaccess\n&quot;
+if [ -f ${ncpath}/.htaccess ]
+then
+        chmod 0644 ${ncpath}/.htaccess
+        chown ${rootuser}:${htgroup} ${ncpath}/.htaccess
+fi
+if [ -f ${ncdata}/.htaccess ]
+then
+        chmod 0644 ${ncdata}/.htaccess
+        chown ${rootuser}:${htgroup} ${ncdata}/.htaccess
+fi
+## END SCRIPT</pre><p>Then we set the permissions so that we could execute the script and executed it: </p><pre class="screen">chmod 750 /var/www/nc_perm.sh
+/var/www/nc_perm.sh</pre></section><footer></footer></div>
+    </div>
+
+    
+  </body></html>

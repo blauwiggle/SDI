@@ -551,6 +551,22 @@ var toc_entries = [
 ["MySQL database administration","apache_mysql_database_administration.html",null],
 ["Providing WEB based user management to your LDAP Server","apache_ldap_web_user_management.html",null],
 ["Publish your documentation","apache_publish_documentation.html",null]
+]],
+["File cloud","filecloud.html",[
+["Prerequisites","filecloud_prerequisites.html",null],
+["Nextcloud package installation","filecloud_package_installation.html",null],
+["Apache server configuration","filecloud_apache_configuration.html",null],
+["Configuring associated services","filecloud_associated_services.html",null],
+["Configuring MariaDB","filecloud_mariadb.html",null],
+["Nextcloud installation and configuration","filecloud_installation.html",null],
+["Setting up the data folders","filecloud_data_folders.html",null],
+["Configuring the memory cache","filecloud_memory_cache.html",null],
+["Finishing the installation","filecloud_finishing_installation.html",null],
+["Adding LDAP support","filecloud_ldap.html",null],
+["Difficulties","filecloud_difficulties.html",null]
+]],
+["Network file systems served by Samba","samba.html",[
+["","placeholder2.html",null]
 ]]
 ]]];
 var toc_initiallyCollapsed = false;
@@ -826,7 +842,7 @@ message = translation[index];
 }
 return message;
 }
-var storageId = "1m5lobn9d23yj";
+var storageId = "19z3a1beyzod7";
 function storageSet(key, value) {
 window.sessionStorage.setItem(key + storageId, String(value));
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>3. Apache server configuration</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="filecloud_package_installation.html" rel="prev" title="2. Nextcloud package installation" /><link href="filecloud_associated_services.html" rel="next" title="4. Configuring associated services" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+    
+
+    <div id="wh-body">
+      <div class="wh-icon-menu" id="wh-menu"></div>
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
+          
+          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
+        </ul>
+        <div id="wh-toc-container">
+          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
+          <div id="wh-toc-pane">
+          </div>
+        </div>
+        
+        <div id="wh-search-container">
+          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
+          <div id="wh-search-pane">
+            <div id="wh-search-results">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator"></div>
+      <div id="wh-content">
+      <header></header><section class="section" id="filecloud_apache_configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. Apache server configuration</h2></div></div></div><p>We used our <a class="link" href="apache.html" title="Chapter 3. Apache Web Server">Apache server</a> from the previous tasks to host our Nextcloud installation. Therefore a new setup of the server and a new generation of a SSL certificate was not necessary. Instead we adjusted our configuration file for the site <code class="uri">sdi8b.mi.hdm-stuttgart.de</code> to cover the Nextcloud folder:</p><pre class="screen">&lt;VirtualHost *:443&gt;
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/sdi8b.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/sdi8b.key
+    #SSLCertificateChainFile /etc/apache2/ssl/chain.txt
+
+    ServerAdmin webmaster@localhost
+    ServerName sdi8b.mi.hdm-stuttgart.de
+    ServerAlias www.sdi8b.mi.hdm-stuttgart.de
+    DocumentRoot /var/www/sdi8b.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+	Alias &quot;/doc&quot; &quot;/home/sdidoc&quot;
+	Alias &quot;/fs120&quot; &quot;/home/sdidoc&quot;
+	Alias &quot;/nv012&quot; &quot;/home/sdidoc&quot;
+	Alias &quot;/mv068&quot; &quot;/home/sdidoc&quot;
+	Alias &quot;/nextcloud&quot; &quot;/var/www/nextcloud&quot;
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;</pre><p> We mapped the Nextcloud folder to <code class="uri">sdi8b.mi.hdm-stuttgart.de/nextcloud</code>. Also we enabled some required mods for our Apache server:</p><pre class="screen">a2enmod rewrite
+a2enmod headers
+a2enmod env
+a2enmod dir
+a2enmod mime</pre><p>We also made sure that the server had sufficient permissions for the Nextcloud folder by giving the user <code class="systemitem">www-data</code> ownership of the folder:</p><pre class="screen">cd /var/www/nextcloud/
+chown www-data:www-data . -R</pre></section><footer></footer></div>
+    </div>
+
+    
+  </body></html>
