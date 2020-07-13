@@ -26,7 +26,20 @@
       </div>
       <div id="wh-separator"></div>
       <div id="wh-content">
-      <header></header><section class="section" id="apache_virtual_hosts"><div class="titlepage"><div><div><h2 class="title" style="clear: both">2. Virtual Hosts</h2></div></div></div><p>---PLACEHOLDER---</p></section><footer></footer></div>
+      <header></header><section class="section" id="apache_virtual_hosts"><div class="titlepage"><div><div><h2 class="title" style="clear: both">2. Virtual Hosts</h2></div></div></div><p>We created virtual hosts for every path extension which includes /manual, /nv012...</p><p>Each virtual host was created in a separate configuration file.</p><p>In order to change the domain for each configuration file we changed the ServerName and the ServerAlias of the file.</p><p>Next, we used the Alias keyword to redirect the domain to its corresponding directory.</p><p>Example manual:</p><pre class="screen">&lt;VirtualHost *:80&gt;
+    ServerName manual.mi.hdm-stuttgart.de
+    ServerAlias www.manual.mi.hdm-stuttgart.de
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/manual.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+        Alias &quot;/&quot; &quot;/usr/share/doc/apache2-doc/manual/&quot;
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/manual.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;</pre><p>We added the subdomains to our server's DNS entries and needed to add them to each of our computers' local hosts in order to access the newly created subdomains.</p></section><footer></footer></div>
     </div>
 
     

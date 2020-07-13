@@ -26,7 +26,27 @@
       </div>
       <div id="wh-separator"></div>
       <div id="wh-content">
-      <header></header><section class="section" id="apache_first_steps"><div class="titlepage"><div><div><h2 class="title" style="clear: both">1. First steps</h2></div></div></div><p>---PLACEHOLDER---</p></section><footer></footer></div>
+      <header></header><section class="section" id="apache_first_steps"><div class="titlepage"><div><div><h2 class="title" style="clear: both">1. First steps</h2></div></div></div><p>We installed the apache2 package by running the commands</p><pre class="screen">apt update
+apt install apache2</pre><p>Then we accessed our domain in the browser to make sure the installation was successful. In our case that was &quot;sdi8b.mi.hdm-stuttgart.de&quot;.</p><p>Next, we replaced the default page with our own HTML document with the content &quot;hallo&quot; for testing purposes which is located in <code class="filename">/var/www/html/index.html</code>.</p><p>Additionally we installed the Ubuntu package apache2-doc which provides the Apache documentation for our website.</p><pre class="screen">apt install apache2-doc</pre><p>The documentation is located in <code class="filename">/usr/share/doc/apache2-doc/manual</code>.</p><p>We then uploaded our documentation to <code class="filename">/home/sdidoc</code> which was created with XMLmind.</p><p>In order to access that directory with the path extensions consisting of our usernames, for example <code class="filename">/nv012</code>, we need to edit our configuration file.</p><p>Our configuration file is called <code class="filename">sdi8b.mi.hdm-stuttgart.de.conf </code>and is located in <code class="filename">/etc/apache2/sites-available</code>.</p><p>We accomplished a redirection to the desired directory by using the Alias keyword:</p><pre class="screen">&lt;VirtualHost *:80&gt;
+    ServerName sdi8b.mi.hdm-stuttgart.de
+    ServerAlias www.sdi8b.mi.hdm-stuttgart.de
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/sdi8b.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+        Alias &quot;/doc&quot; &quot;/home/sdidoc&quot;
+        Alias &quot;/fs120&quot; &quot;/home/sdidoc&quot;
+        Alias &quot;/nv012&quot; &quot;/home/sdidoc&quot;
+        Alias &quot;/mv068&quot; &quot;/home/sdidoc&quot;
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;                                                                                                     </pre><p>We enabled the configuration file with the command<code class="filename"><span class="bold"><strong>a2ensite sdi8b.mi.hdm-stuttgart.de.conf</strong></span></code>.</p></section><footer></footer></div>
     </div>
 
     

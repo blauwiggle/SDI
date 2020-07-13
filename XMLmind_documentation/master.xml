@@ -28,7 +28,7 @@
       <surname>Vogt</surname></personname>
     </author>
 
-    <pubdate>11.05.2020</pubdate>
+    <pubdate>13.07.2020</pubdate>
   </info>
 
   <xi:include href="dns.xml" xpointer="element(/1)"/>
@@ -36,4 +36,8 @@
   <xi:include href="ldap.xml" xpointer="element(/1)"/>
 
   <xi:include href="apache.xml" xpointer="element(/1)"/>
+
+  <xi:include href="filecloud.xml" xpointer="element(/1)"/>
+
+  <xi:include href="samba.xml" xpointer="element(/1)"/>
 </book>
