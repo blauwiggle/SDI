@@ -13,13 +13,97 @@
   <section xml:id="apache_first_steps">
     <title>First steps</title>
 
-    <para>---PLACEHOLDER---</para>
+    <para>We installed the apache2 package by running the commands</para>
+
+    <para><screen>apt update
+apt install apache2</screen>Then we accessed our domain in the browser to make
+    sure the installation was successful. In our case that was
+    "sdi8b.mi.hdm-stuttgart.de".</para>
+
+    <para>Next, we replaced the default page with our own HTML document with
+    the content "hallo" for testing purposes which is located in
+    <filename>/var/www/html/index.html</filename>.</para>
+
+    <para>Additionally we installed the Ubuntu package apache2-doc which
+    provides the Apache documentation for our website.</para>
+
+    <para><screen>apt install apache2-doc</screen></para>
+
+    <para>The documentation is located in
+    <filename>/usr/share/doc/apache2-doc/manual</filename>.</para>
+
+    <para>We then uploaded our documentation to
+    <filename>/home/sdidoc</filename> which was created with XMLmind.</para>
+
+    <para>In order to access that directory with the path extensions
+    consisting of our usernames, for example <filename>/nv012</filename>, we
+    need to edit our configuration file.</para>
+
+    <para>Our configuration file is called
+    <filename>sdi8b.mi.hdm-stuttgart.de.conf </filename>and is located in
+    <filename>/etc/apache2/sites-available</filename>.</para>
+
+    <para>We accomplished a redirection to the desired directory by using the
+    Alias keyword:</para>
+
+    <para><screen>&lt;VirtualHost *:80&gt;
+    ServerName sdi8b.mi.hdm-stuttgart.de
+    ServerAlias www.sdi8b.mi.hdm-stuttgart.de
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/sdi8b.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+        Alias "/doc" "/home/sdidoc"
+        Alias "/fs120" "/home/sdidoc"
+        Alias "/nv012" "/home/sdidoc"
+        Alias "/mv068" "/home/sdidoc"
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;                                                                                                     </screen>We
+    enabled the configuration file with the command<filename> <emphasis
+    role="bold">a2ensite
+    sdi8b.mi.hdm-stuttgart.de.conf</emphasis></filename>.</para>
   </section>
 
   <section xml:id="apache_virtual_hosts">
     <title>Virtual Hosts</title>
 
-    <para>---PLACEHOLDER---</para>
+    <para>We created virtual hosts for every path extension which includes
+    /manual, /nv012...</para>
+
+    <para>Each virtual host was created in a separate configuration
+    file.</para>
+
+    <para>In order to change the domain for each configuration file we changed
+    the ServerName and the ServerAlias of the file.</para>
+
+    <para>Next, we used the Alias keyword to redirect the domain to its
+    corresponding directory.</para>
+
+    <para>Example manual:</para>
+
+    <para><screen>&lt;VirtualHost *:80&gt;
+    ServerName manual.mi.hdm-stuttgart.de
+    ServerAlias www.manual.mi.hdm-stuttgart.de
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/manual.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+        Alias "/" "/usr/share/doc/apache2-doc/manual/"
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/manual.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;</screen>We added the subdomains to our server's DNS entries
+    and needed to add them to each of our computers' local hosts in order to
+    access the newly created subdomains.</para>
   </section>
 
   <section xml:id="apache_ssl_tls_support">
@@ -210,7 +294,7 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/9.png" scale="50"/>
+          <imagedata fileref="images/9.png" scale="40"/>
         </imageobject>
       </inlinemediaobject></para>
   </section>
