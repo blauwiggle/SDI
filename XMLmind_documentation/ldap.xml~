@@ -412,7 +412,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
 
     <para>Accessing LDAP by a Python Application.</para>
 
-    <para>Python Skript für den Zugriff auf den HdM LDAP:</para>
+    <para>Python HdM LDAP:</para>
 
     <para><inlinemediaobject>
         <imageobject>
@@ -420,7 +420,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
         </imageobject>
       </inlinemediaobject></para>
 
-    <para>Ergebnis HdM LDAP:</para>
+    <para>Result HdM LDAP:</para>
 
     <para><inlinemediaobject>
         <imageobject>
@@ -428,7 +428,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
         </imageobject>
       </inlinemediaobject></para>
 
-    <para>Python Skipt für den Zugriff auf den SDI8 LDAP:</para>
+    <para>Python SDI8 LDAP:</para>
 
     <para><inlinemediaobject>
         <imageobject>
@@ -436,7 +436,7 @@ chown -R openldap:openldap /var/lib/ldap</screen>
         </imageobject>
       </inlinemediaobject></para>
 
-    <para>Ergebnis SDI8 LDAP:</para>
+    <para>Result SDI8 LDAP:</para>
 
     <para><inlinemediaobject>
         <imageobject>
