@@ -433,12 +433,6 @@ connection.unbind()
 pprint(results)
 </screen>
 
-    <para><inlinemediaobject>
-        <imageobject>
-          <imagedata fileref="../LDAP/images/cat%20hdm.png" width="1000"/>
-        </imageobject>
-      </inlinemediaobject></para>
-
     <para>Result HdM LDAP</para>
 
     <para><inlinemediaobject>
@@ -469,12 +463,6 @@ results = connection.search_s(
 connection.unbind()
 pprint(results)
 </screen>
-
-    <para><inlinemediaobject>
-        <imageobject>
-          <imagedata fileref="../LDAP/images/cat%20sdi8b.png" width="1000"/>
-        </imageobject>
-      </inlinemediaobject></para>
 
     <para>Result SDI8 LDAP:</para>
 
