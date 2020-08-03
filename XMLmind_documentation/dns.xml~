@@ -10,7 +10,7 @@
          xmlns:db="http://docbook.org/ns/docbook">
   <title>DNS-bind</title>
 
-  <section>
+  <section xml:id="dns_bind_installing_bind9">
     <title>Installing bind9</title>
 
     <para>We had to install the server and it's utilities to run the bind9 DNS
@@ -19,7 +19,7 @@
     <screen>apt install bind9</screen>
   </section>
 
-  <section>
+  <section xml:id="dns_bind_change_default_and_global_options">
     <title>Change default and global options</title>
 
     <para>We changed the default configuration in /etc/default/bind9 to run
@@ -66,7 +66,7 @@ options {
     <screen>service bind9 reload</screen>
   </section>
 
-  <section>
+  <section xml:id="dns_bind_zones_configuration">
     <title>Zones configuration</title>
 
     <para>We set up the forward lookup zone in
@@ -124,7 +124,7 @@ zone "75.62.141.in-addr.arpa" {
 };</screen>
   </section>
 
-  <section>
+  <section xml:id="dns_bind_error_handling">
     <title>Error handling</title>
 
     <para>To check the <filename>/etc/bind/named.conf.local</filename> we
@@ -137,10 +137,10 @@ zone "75.62.141.in-addr.arpa" {
     <screen>service bind9 reload</screen>
   </section>
 
-  <section>
+  <section xml:id="dns_bind_tests">
     <title>Tests</title>
 
-    <section>
+    <section xml:id="dns_bind_tests_forward_lookup">
       <title>Forward lookup</title>
 
       <screen>dig @141.62.75.108 sdi8a.mi.hdm-stuttgart.de</screen>
@@ -173,7 +173,7 @@ ns8.mi.hdm-stuttgart.de. 604800	IN	A	141.62.75.108
 </screen>
     </section>
 
-    <section>
+    <section xml:id="dns_bind_tests_reverse_lookup">
       <title>Reverse lookup</title>
 
       <screen>dig @141.62.75.108 -x 141.62.75.108</screen>
@@ -206,7 +206,7 @@ ns8.mi.hdm-stuttgart.de. 604800	IN	A	141.62.75.108
 </screen>
     </section>
 
-    <section>
+    <section xml:id="dns_bind_test_recursive_dns_query">
       <title>Recursive DNS query</title>
 
       <screen>dig @141.62.75.108 heise.de</screen>
@@ -251,7 +251,7 @@ ns2.pop-hannover.net.	146284	IN	A	62.48.67.66
     </section>
   </section>
 
-  <section>
+  <section xml:id="dns_bind_mail_exchange_mx_record_configuration">
     <title>Mail exchange (MX) record configuration</title>
 
     <para>The last task was to configure the DNS server with a Mail Exchange

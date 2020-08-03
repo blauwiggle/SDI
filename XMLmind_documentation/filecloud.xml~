@@ -11,7 +11,260 @@
          xmlns:db="http://docbook.org/ns/docbook">
   <title>File cloud</title>
 
-  <section xml:id="placeholder">
-    <title/>
+  <section xml:id="filecloud_prerequisites">
+    <title>Prerequisites</title>
+
+    <para>The task was to install a file cloud system using Nextcloud. To do
+    this, we followed the guide at <link
+    xlink:href="https://help.nextcloud.com/t/complete-nc-installation-on-debian-9-stretch-and-manual-update/21881">https://help.nextcloud.com/t/complete-nc-installation-on-debian-9-stretch-and-manual-update/21881</link>
+    . The first thing was to install all necessary packages: <screen>apt install vim unzip sudo
+apt install apache2 mariadb-server libapache2-mod-php
+apt install php-gd php-json php-mysql php-curl
+apt install php-intl php-mcrypt php-imagick
+apt install php-zip php-xmlwriter php-xmlreader php-xml php-mbstring php-simplexml</screen></para>
+  </section>
+
+  <section xml:id="filecloud_package_installation">
+    <title>Nextcloud package installation</title>
+
+    <para>Then we installed the latest Nextcloud version and moved it to
+    <filename>/var/nextcloud</filename> with: <screen>wget https://download.nextcloud.com/server/releases/latest.zip
+unzip latest.zip
+mv nextcloud/ /var/www</screen></para>
+  </section>
+
+  <section xml:id="filecloud_apache_configuration">
+    <title>Apache server configuration</title>
+
+    <para>We used our <link linkend="apache">Apache server</link> from the
+    previous tasks to host our Nextcloud installation. Therefore a new setup
+    of the server and a new generation of a SSL certificate was not necessary.
+    Instead we adjusted our configuration file for the site
+    <uri>sdi8b.mi.hdm-stuttgart.de</uri> to cover the Nextcloud
+    folder:<screen>&lt;VirtualHost *:443&gt;
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/sdi8b.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/sdi8b.key
+    #SSLCertificateChainFile /etc/apache2/ssl/chain.txt
+
+    ServerAdmin webmaster@localhost
+    ServerName sdi8b.mi.hdm-stuttgart.de
+    ServerAlias www.sdi8b.mi.hdm-stuttgart.de
+    DocumentRoot /var/www/sdi8b.mi.hdm-stuttgart.de
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+	Alias "/doc" "/home/sdidoc"
+	Alias "/fs120" "/home/sdidoc"
+	Alias "/nv012" "/home/sdidoc"
+	Alias "/mv068" "/home/sdidoc"
+	Alias "/nextcloud" "/var/www/nextcloud"
+&lt;/VirtualHost&gt;
+&lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+&lt;Directory /home/sdidoc&gt;
+    Require all granted
+&lt;/Directory&gt;</screen> We mapped the Nextcloud folder to
+    <uri>sdi8b.mi.hdm-stuttgart.de/nextcloud</uri>. Also we enabled some
+    required mods for our Apache server:<screen>a2enmod rewrite
+a2enmod headers
+a2enmod env
+a2enmod dir
+a2enmod mime</screen>We also made sure that the server had sufficient
+    permissions for the Nextcloud folder by giving the user <systemitem
+    class="username">www-data</systemitem> ownership of the folder:<screen>cd /var/www/nextcloud/
+chown www-data:www-data . -R</screen></para>
+  </section>
+
+  <section xml:id="filecloud_associated_services">
+    <title>Configuring associated services</title>
+
+    <para>At this point we restarted our Apache server and our MariaDB
+    database and set them up to automatically start at server startup:<screen>systemctl restart apache2
+systemctl enable apache2
+systemctl restart mariadb
+systemctl enable mariadb</screen></para>
+  </section>
+
+  <section xml:id="filecloud_mariadb">
+    <title>Configuring MariaDB</title>
+
+    <para>As with our Apache server, we used the existing MariaDB database
+    from the previous tasks. So we just added a database and a user for our
+    Nextcloud system by executing the following SQL satement:<screen>mysql -u root -p
+CREATE DATABASE nextcloud;
+GRANT ALL ON nextcloud.* to 'nextcloud'@'localhost' IDENTIFIED BY 'sdi8bnextclouddbpassword';
+FLUSH PRIVILEGES;
+exit</screen></para>
+  </section>
+
+  <section xml:id="filecloud_installation">
+    <title>Nextcloud installation and configuration</title>
+
+    <para>First, we executed the Nextcloud installation script with:<screen>sudo -u www-data php occ maintenance:install --database "mysql" --database-name "nextcloud" --database-user "nextcloud" --database-pass "sdi8bnextclouddbpassword" --admin-user "ncadmin" --admin-pass "sdi8bnextcloudadminpassword"</screen>Then
+    we added our server to the trusted domains by adjusting the configuration
+    file under
+    <filename>/var/www/nextcloud/config/config.php</filename>:<screen>'trusted_domains' =&gt; 
+  array (
+    0 =&gt; 'localhost',
+    1 =&gt; 'sdi8b.mi.hdm-stuttgart.de',
+  )</screen></para>
+  </section>
+
+  <section xml:id="filecloud_data_folders">
+    <title>Setting up the data folders</title>
+
+    <para>We moved the data folder to the <filename>var</filename> directory
+    and renamed it to <filename>nc_data</filename>:<screen>mv /var/www/nextcloud/data /var/nc_data</screen>Then
+    we created a script to correctly set the folder permissions. We copied it
+    from the <link
+    xlink:href="https://help.nextcloud.com/t/complete-nc-installation-on-debian-9-stretch-and-manual-update/21881">Nextcloud
+    tutorial page</link>: <screen>vi /var/www/nc_perm.sh</screen><screen>#!/bin/bash
+ncpath='/var/www/nextcloud'
+ncdata='/var/nc_data'
+htuser='www-data'
+htgroup='www-data'
+rootuser='root'
+
+printf "Creating possible missing Directories\n"
+mkdir -p $ncpath/data
+mkdir -p $ncpath/updater
+
+printf "chmod Files and Directories\n"
+find ${ncpath} -type f -print0 | xargs -0 chmod 0640
+find ${ncpath} -type d -print0 | xargs -0 chmod 0750
+find ${ncdata} -type f -print0 | xargs -0 chmod 0640
+find ${ncdata} -type d -print0 | xargs -0 chmod 0750
+
+printf "chown Directories\n"
+chown -R ${rootuser}:${htgroup} ${ncpath}
+chown -R ${htuser}:${htgroup} ${ncpath}/apps/
+chown -R ${htuser}:${htgroup} ${ncpath}/config/
+chown -R ${htuser}:${htgroup} ${ncdata}/
+chown -R ${htuser}:${htgroup} ${ncpath}/themes/
+chown -R ${htuser}:${htgroup} ${ncpath}/updater/
+
+chmod +x ${ncpath}/occ
+
+printf "chmod/chown .htaccess\n"
+if [ -f ${ncpath}/.htaccess ]
+then
+        chmod 0644 ${ncpath}/.htaccess
+        chown ${rootuser}:${htgroup} ${ncpath}/.htaccess
+fi
+if [ -f ${ncdata}/.htaccess ]
+then
+        chmod 0644 ${ncdata}/.htaccess
+        chown ${rootuser}:${htgroup} ${ncdata}/.htaccess
+fi
+## END SCRIPT</screen>Then we set the permissions so that we could execute the
+    script and executed it: <screen>chmod 750 /var/www/nc_perm.sh
+/var/www/nc_perm.sh</screen></para>
+  </section>
+
+  <section xml:id="filecloud_memory_cache">
+    <title>Configuring the memory cache</title>
+
+    <para>To configure the memory cache, we adjusted the
+    <filename>php.ini</filename> file under
+    <filename>/etc/php/7.2/apache2/php.ini</filename>. We added the following
+    before the "Local Variables" section:<screen>opcache.enable=1
+opcache.enable_cli=1
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=10000
+opcache.memory_consumption=128
+opcache.save_comments=1
+opcache.revalidate_freq=1</screen></para>
+  </section>
+
+  <section xml:id="filecloud_finishing_installation">
+    <title>Finishing the installation</title>
+
+    <para>To finish the installation, we restarted our Apache server
+    with:<screen>systemctl restart apache2</screen>Now the Nextcloud service
+    was set up and we could login under
+    <uri>sdi8b.mi.hdm-stuttgart.de/nextcloud</uri> which forwarded to
+    <uri>https://sdi8b.mi.hdm-stuttgart.de/nextcloud/index.php/login</uri>.</para>
+  </section>
+
+  <section xml:id="filecloud_ldap">
+    <title>Adding LDAP support</title>
+
+    <para>In this state, we could only login with the admin user created
+    during the installation process. To make it possible to log in with our
+    HdM usernames we added LDAP support and connected the LDAP server under
+    <uri>ldap1.mi.hdm-stuttgart.de</uri>. To do this we logged in with the
+    admin user and activated the "LDAP user and group backend" app:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/nc_apps.png" scalefit="1" width="100%"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para>Then we configured it as the following gallery shows:</para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/nc_ldap_1.png" scalefit="1" width="100%"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/nc_ldap_2.png" scalefit="1" width="100%"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/nc_ldap_3.png" scalefit="1" width="100%"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/nc_ldap_4.png" scalefit="1" width="100%"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/nc_ldap_5.png" scalefit="1" width="100%"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para><inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="images/nc_ldap_6.png" scalefit="1" width="100%"/>
+        </imageobject>
+      </inlinemediaobject></para>
+
+    <para>Finally we could log in with our HdM credentials.</para>
+  </section>
+
+  <section xml:id="filecloud_difficulties">
+    <title>Difficulties</title>
+
+    <para>There were two major difficulties while doing this
+    task:<itemizedlist>
+        <listitem>
+          <para>The tutorial on the Nextcloud page was written for PHP 7.0
+          which is but outdated right now and current versions of nextcloud
+          require at least PHP 7.2. We noticed that right in the middle of the
+          task ans then we had to reinstall all PHP packages again. And while
+          being not that difficult it was kind of an effort to retype all
+          those install commands.</para>
+        </listitem>
+
+        <listitem>
+          <para>It was hard to figure out the correct configuration for the
+          LDAP App to make the configuration work with the HdM MI LDAP sever
+          in the "Advanced" and "Expert" tabs.</para>
+        </listitem>
+      </itemizedlist></para>
   </section>
 </chapter>

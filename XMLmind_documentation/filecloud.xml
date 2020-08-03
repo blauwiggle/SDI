@@ -201,7 +201,7 @@ opcache.revalidate_freq=1</screen></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/nc_apps.png" width="1000"/>
+          <imagedata fileref="images/nc_apps.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -209,37 +209,37 @@ opcache.revalidate_freq=1</screen></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/nc_ldap_1.png" width="1000"/>
+          <imagedata fileref="images/nc_ldap_1.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/nc_ldap_2.png" width="1000"/>
+          <imagedata fileref="images/nc_ldap_2.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/nc_ldap_3.png" width="1000"/>
+          <imagedata fileref="images/nc_ldap_3.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/nc_ldap_4.png" width="1000"/>
+          <imagedata fileref="images/nc_ldap_4.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/nc_ldap_5.png" width="1000"/>
+          <imagedata fileref="images/nc_ldap_5.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/nc_ldap_6.png" width="1000"/>
+          <imagedata fileref="images/nc_ldap_6.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -253,7 +253,7 @@ opcache.revalidate_freq=1</screen></para>
     task:<itemizedlist>
         <listitem>
           <para>The tutorial on the Nextcloud page was written for PHP 7.0
-          which is but outdated right now and current versions of nextcloud
+          which is but outdated right now and current versions of Nextcloud
           require at least PHP 7.2. We noticed that right in the middle of the
           task ans then we had to reinstall all PHP packages again. And while
           being not that difficult it was kind of an effort to retype all
@@ -262,7 +262,7 @@ opcache.revalidate_freq=1</screen></para>
 
         <listitem>
           <para>It was hard to figure out the correct configuration for the
-          LDAP App to make the configuration work with the HdM MI LDAP sever
+          LDAP app to make the configuration work with the HdM MI LDAP sever
           in the "Advanced" and "Expert" tabs.</para>
         </listitem>
       </itemizedlist></para>

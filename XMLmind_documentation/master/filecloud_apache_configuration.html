@@ -26,7 +26,7 @@
       </div>
       <div id="wh-separator"></div>
       <div id="wh-content">
-      <header></header><section class="section" id="filecloud_apache_configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. Apache server configuration</h2></div></div></div><p>We used our <a class="link" href="apache.html" title="Chapter 3. Apache Web Server">Apache server</a> from the previous tasks to host our Nextcloud installation. Therefore a new setup of the server and a new generation of a SSL certificate was not necessary. Instead we adjusted our configuration file for the site <code class="uri">sdi8b.mi.hdm-stuttgart.de</code> to cover the Nextcloud folder:</p><pre class="screen">&lt;VirtualHost *:443&gt;
+      <header></header><section class="section" id="filecloud_apache_configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. Apache server configuration</h2></div></div></div><p>We used our <a class="link" href="apache.html" title="Chapter 4. Apache Web Server">Apache server</a> from the previous tasks to host our Nextcloud installation. Therefore a new setup of the server and a new generation of a SSL certificate was not necessary. Instead we adjusted our configuration file for the site <code class="uri">sdi8b.mi.hdm-stuttgart.de</code> to cover the Nextcloud folder:</p><pre class="screen">&lt;VirtualHost *:443&gt;
     SSLEngine On
     SSLCertificateFile /etc/apache2/ssl/sdi8b.crt
 	SSLCertificateKeyFile /etc/apache2/ssl/sdi8b.key

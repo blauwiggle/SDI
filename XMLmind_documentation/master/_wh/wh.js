@@ -518,6 +518,10 @@ return this;
 var wh = (function () {
 var toc_entries = [
 ["Documentation &quot;Software Defined Infrastructure&quot; in summer term 2020 (Group 8)","index.html",[
+["Overview","overview.html",[
+["Software distribution on the servers","software_distribution.html",null],
+["Credentials","credentials.html",null]
+]],
 ["DNS-bind","dns_bind.html",[
 ["Installing bind9","dns_bind_installing_bind9.html",null],
 ["Change default and global options","dns_bind_change_default_and_global_options.html",null],
@@ -842,7 +846,7 @@ message = translation[index];
 }
 return message;
 }
-var storageId = "19z3a1beyzod7";
+var storageId = "1g8ve0snn9cwe";
 function storageSet(key, value) {
 window.sessionStorage.setItem(key + storageId, String(value));
 }

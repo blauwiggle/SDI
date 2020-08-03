@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>11. Accessing LDAP by a Python Application</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="ldap_backup_and_restore.html" rel="prev" title="10. Backup and recovery / restore" /><link href="apache.html" rel="next" title="Chapter 3. Apache Web Server" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>11. Accessing LDAP by a Python Application</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="ldap_backup_and_restore.html" rel="prev" title="10. Backup and recovery / restore" /><link href="apache.html" rel="next" title="Chapter 4. Apache Web Server" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
     
 
     <div id="wh-body">
@@ -26,7 +26,45 @@
       </div>
       <div id="wh-separator"></div>
       <div id="wh-content">
-      <header></header><section class="section" id="ldap_ldap_python"><div class="titlepage"><div><div><h2 class="title" style="clear: both">11. Accessing LDAP by a Python Application</h2></div></div></div><p>Accessing LDAP by a Python Application.</p><p>Python Skript für den Zugriff auf den HdM LDAP:</p><p><span class="inlinemediaobject"><img src="resources/cat%20hdm.png" width="270" /></span></p><p>Ergebnis HdM LDAP:</p><p><span class="inlinemediaobject"><img src="resources/python%20hdm.png" width="270" /></span></p><p>Python Skipt für den Zugriff auf den SDI8 LDAP:</p><p><span class="inlinemediaobject"><img src="resources/cat%20sdi8b.png" width="270" /></span></p><p>Ergebnis SDI8 LDAP:</p><p><span class="inlinemediaobject"><img src="resources/python%20sdi8b.png" width="270" /></span></p></section><footer></footer></div>
+      <header></header><section class="section" id="ldap_ldap_python"><div class="titlepage"><div><div><h2 class="title" style="clear: both">11. Accessing LDAP by a Python Application</h2></div></div></div><p>Python HdM LDAP:</p><pre class="screen">import ldap
+from pprint import pprint
+
+
+server_uri = 'ldap://ldap1.mi.hdm-stuttgart.de'
+search_base = 'ou=userlist,dc=hdm-stuttgart,dc=de'
+search_filter = '(uid=mistudent)'
+attrs = ['*']
+
+connection = ldap.initialize(server_uri)
+connection.simple_bind_s()
+results = connection.search_s(
+    search_base,
+    ldap.SCOPE_ONELEVEL,
+    search_filter,
+    attrs,
+)
+connection.unbind()
+pprint(results)
+</pre><p>Result HdM LDAP:</p><p><span class="inlinemediaobject"><img src="resources/python%20hdm.png" width="100%" /></span></p><p>Python SDI8 LDAP:</p><pre class="screen">import ldap
+from pprint import pprint
+
+
+server_uri = 'ldap://sdi8b.mi.hdm-stuttgart.de'
+search_base = 'ou=devel,ou=software,ou=departments,dc=betrayer,dc=com'
+search_filter = '(uid=bean)'
+attrs = ['*']
+
+connection = ldap.initialize(server_uri)
+connection.simple_bind_s()
+results = connection.search_s(
+    search_base,
+    ldap.SCOPE_ONELEVEL,
+    search_filter,
+    attrs,
+)
+connection.unbind()
+pprint(results)
+</pre><p>Result SDI8 LDAP:</p><p><span class="inlinemediaobject"><img src="resources/python%20sdi8b.png" width="100%" /></span></p></section><footer></footer></div>
     </div>
 
     

@@ -229,11 +229,11 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
   <section xml:id="apache_mysql_database_administration">
     <title>MySQL database administration</title>
 
-    <para>We installed a MySQL DB server next to our Apache Webserver and
-    managed it with phpmyadmin. To do so, we installed the MySQL server and
+    <para>We installed a MariaDB server next to our Apache Webserver and
+    managed it with phpmyadmin. To do so, we installed the MariaDB server and
     phpmyadmin.</para>
 
-    <screen>apt install mysql-server phpmyadmin</screen>
+    <screen>apt install mariadb-server phpmyadmin</screen>
 
     <para>After we executed <emphasis role="bold">dpkg-reconfigure</emphasis>
     <emphasis role="bold">phpmyadmin </emphasis>we followed the guided
@@ -241,49 +241,49 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/1.png" width="1000"/>
+          <imagedata fileref="images/1.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/2.png" width="1000"/>
+          <imagedata fileref="images/2.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/3.png" width="1000"/>
+          <imagedata fileref="images/3.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/4.png" width="1000"/>
+          <imagedata fileref="images/4.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/5.png" width="1000"/>
+          <imagedata fileref="images/5.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/6.png" width="1000"/>
+          <imagedata fileref="images/6.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/7.png" width="1000"/>
+          <imagedata fileref="images/7.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/8.png" width="1000"/>
+          <imagedata fileref="images/8.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -294,7 +294,7 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="images/9.png" width="1000"/>
+          <imagedata fileref="images/9.png" scalefit="1" width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
   </section>

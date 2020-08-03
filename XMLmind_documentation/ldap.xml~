@@ -206,7 +206,8 @@ userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
 
     <mediaobject>
       <imageobject>
-        <imagedata fileref="images/thunderbird.png" format="JPG" width="1000"/>
+        <imagedata fileref="images/thunderbird.png" format="JPG" scalefit="1"
+                   width="100%"/>
       </imageobject>
     </mediaobject>
   </section>
@@ -331,7 +332,7 @@ numEntries: 4</screen></para>
 
     <para>To add the <code>objectClass</code> <code>posixAccount</code> and
     its according attributes <code>uidNumber</code>, <code>gidNumber</code>
-    and <code>homeDirectory</code> we created a ldif file with:<screen>dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+    and <code>homeDirectory</code> we created a LDIF file with:<screen>dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
 changetype: modify
 add: homeDirectory
 homeDirectory: /home/bean
@@ -410,37 +411,65 @@ chown -R openldap:openldap /var/lib/ldap</screen>
   <section xml:id="ldap_ldap_python">
     <title>Accessing LDAP by a Python Application</title>
 
-    <para>Accessing LDAP by a Python Application.</para>
-
     <para>Python HdM LDAP:</para>
 
-    <para><inlinemediaobject>
-        <imageobject>
-          <imagedata fileref="../LDAP/images/cat%20hdm.png" scale="50"/>
-        </imageobject>
-      </inlinemediaobject></para>
+    <screen>import ldap
+from pprint import pprint
+
+
+server_uri = 'ldap://ldap1.mi.hdm-stuttgart.de'
+search_base = 'ou=userlist,dc=hdm-stuttgart,dc=de'
+search_filter = '(uid=mistudent)'
+attrs = ['*']
+
+connection = ldap.initialize(server_uri)
+connection.simple_bind_s()
+results = connection.search_s(
+    search_base,
+    ldap.SCOPE_ONELEVEL,
+    search_filter,
+    attrs,
+)
+connection.unbind()
+pprint(results)
+</screen>
 
     <para>Result HdM LDAP:</para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/python%20hdm.png" scale="50"/>
+          <imagedata fileref="../LDAP/images/python%20hdm.png" width="1000"/>
         </imageobject>
       </inlinemediaobject></para>
 
     <para>Python SDI8 LDAP:</para>
 
-    <para><inlinemediaobject>
-        <imageobject>
-          <imagedata fileref="../LDAP/images/cat%20sdi8b.png" scale="50"/>
-        </imageobject>
-      </inlinemediaobject></para>
+    <screen>import ldap
+from pprint import pprint
+
+
+server_uri = 'ldap://sdi8b.mi.hdm-stuttgart.de'
+search_base = 'ou=devel,ou=software,ou=departments,dc=betrayer,dc=com'
+search_filter = '(uid=bean)'
+attrs = ['*']
+
+connection = ldap.initialize(server_uri)
+connection.simple_bind_s()
+results = connection.search_s(
+    search_base,
+    ldap.SCOPE_ONELEVEL,
+    search_filter,
+    attrs,
+)
+connection.unbind()
+pprint(results)
+</screen>
 
     <para>Result SDI8 LDAP:</para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/python%20sdi8b.png" scale="50"/>
+          <imagedata fileref="../LDAP/images/python%20sdi8b.png" width="1000"/>
         </imageobject>
       </inlinemediaobject></para>
   </section>

@@ -206,7 +206,8 @@ userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
 
     <mediaobject>
       <imageobject>
-        <imagedata fileref="images/thunderbird.png" format="JPG" width="1000"/>
+        <imagedata fileref="images/thunderbird.png" format="JPG" scalefit="1"
+                   width="100%"/>
       </imageobject>
     </mediaobject>
   </section>
@@ -331,7 +332,7 @@ numEntries: 4</screen></para>
 
     <para>To add the <code>objectClass</code> <code>posixAccount</code> and
     its according attributes <code>uidNumber</code>, <code>gidNumber</code>
-    and <code>homeDirectory</code> we created a ldif file with:<screen>dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+    and <code>homeDirectory</code> we created a LDIF file with:<screen>dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
 changetype: modify
 add: homeDirectory
 homeDirectory: /home/bean
@@ -433,11 +434,12 @@ connection.unbind()
 pprint(results)
 </screen>
 
-    <para>Result HdM LDAP</para>
+    <para>Result HdM LDAP:</para>
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/python%20hdm.png" width="1000"/>
+          <imagedata fileref="../LDAP/images/python%20hdm.png" scalefit="1"
+                     width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
 
@@ -468,7 +470,8 @@ pprint(results)
 
     <para><inlinemediaobject>
         <imageobject>
-          <imagedata fileref="../LDAP/images/python%20sdi8b.png" width="1000"/>
+          <imagedata fileref="../LDAP/images/python%20sdi8b.png" scalefit="1"
+                     width="100%"/>
         </imageobject>
       </inlinemediaobject></para>
   </section>

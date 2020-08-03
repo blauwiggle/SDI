@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.1" xml:id="overview" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xila="http://www.w3.org/2001/XInclude/local-attributes"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:trans="http://docbook.org/ns/transclusion"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Overview</title>
+
+  <section xml:id="software_distribution">
+    <title>Software distribution on the servers</title>
+
+    <table>
+      <title>Software distribution</title>
+
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry align="center">sdi8a.mi.hdm-stuttgart.de</entry>
+
+            <entry align="center">sdi8b.mi.hdm-stuttgart.de</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry align="center">DNS server</entry>
+
+            <entry align="center">Apache web server</entry>
+          </row>
+
+          <row>
+            <entry align="center">LDAP server (root)</entry>
+
+            <entry align="center">LDAP server (replica)</entry>
+          </row>
+
+          <row>
+            <entry align="center"/>
+
+            <entry align="center">MySQL database and phpMyAdmin</entry>
+          </row>
+
+          <row>
+            <entry align="center"/>
+
+            <entry align="center">Nextcloud</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>Credentials</title>
+
+    <para>The following table gives an overview over the credentials we
+    created and used for our various applications:</para>
+
+    <table>
+      <title>Credentials</title>
+
+      <tgroup cols="3">
+        <colspec colname="col1" colnum="1"/>
+
+        <colspec colname="col2" colnum="2"/>
+
+        <colspec colname="col3" colnum="3"/>
+
+        <thead>
+          <row>
+            <entry align="center">Application</entry>
+
+            <entry align="center">Username</entry>
+
+            <entry align="center">Password</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry align="center">sdi8a and sdi8b server</entry>
+
+            <entry align="center" nameend="col3" namest="col2">[Access via SSH
+            and personal key files]</entry>
+          </row>
+
+          <row>
+            <entry align="center">LDAP server
+            (sdi8a.mi.hdm-stuttgart.de)</entry>
+
+            <entry align="center">root</entry>
+
+            <entry align="center">sdi8a</entry>
+          </row>
+
+          <row>
+            <entry align="center">LDAP server
+            (sdi8b.mi.hdm-stuttgart.de)</entry>
+
+            <entry align="center">root</entry>
+
+            <entry align="center">sdi8b</entry>
+          </row>
+
+          <row>
+            <entry align="center" morerows="2" valign="middle">MariaDB</entry>
+
+            <entry align="center">root</entry>
+
+            <entry align="center">[no password, connection allowed from
+            localhost only]</entry>
+          </row>
+
+          <row>
+            <entry align="center">phpmyadmin</entry>
+
+            <entry align="center">sdi8b</entry>
+          </row>
+
+          <row>
+            <entry align="center">nextcloud</entry>
+
+            <entry align="center">sdi8bnextclouddbpassword</entry>
+          </row>
+
+          <row>
+            <entry align="center">Nextcloud</entry>
+
+            <entry align="center">ncadmin</entry>
+
+            <entry align="center">sdi8bnextcloudadminpassword</entry>
+          </row>
+
+          <row>
+            <entry align="center">Samba</entry>
+
+            <entry align="center">root [shared folder
+            "/root/sambashare"]</entry>
+
+            <entry align="center">sdi8bsamba</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+</chapter>

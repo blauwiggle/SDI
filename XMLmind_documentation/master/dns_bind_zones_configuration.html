@@ -26,7 +26,7 @@
       </div>
       <div id="wh-separator"></div>
       <div id="wh-content">
-      <header></header><section class="section" id="dns_bind_zones_configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. Zones configuration</h2></div></div></div><p>We set up the forward lookup zone in <code class="filename">/etc/bind/zones/db.mi.hdm-stuttgart.de</code>. This maps hostnames to IPv4 addresses. It is to be mentioned here that you have to increase the serial number of the document each time you save changes. Otherwise the changes will not be loaded at the next server reload.</p><pre class="screen">$TTL    604800
+      <header></header><section class="section" id="dns_bind_zones_configuration"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. Zones configuration</h2></div></div></div><p>We set up the forward lookup zone in <code class="filename">/etc/bind/zones/db.mi.hdm-stuttgart.de</code>. This maps host names to IPv4 addresses. It is to be mentioned here that you have to increase the serial number of the document each time you save changes. Otherwise the changes will not be loaded at the next server reload.</p><pre class="screen">$TTL    604800
 @       IN      SOA     ns8.mi.hdm-stuttgart.de. root.mi.hdm-stuttgart.de. (
             2020050401  ; Serial
              604800     ; Refresh
