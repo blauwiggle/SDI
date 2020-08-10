@@ -11,7 +11,7 @@
   <title>Network file systems served by Samba</title>
 
   <section xml:id="placeholder2">
-    <title>How to Create a Network Share</title>
+    <title>Creating a Network Share</title>
 
     <para>First we needed to install samba itself. This was accomplished by
     the following commands:</para>

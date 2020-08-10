@@ -49,6 +49,12 @@
 
             <entry align="center">Nextcloud</entry>
           </row>
+
+          <row>
+            <entry align="center"/>
+
+            <entry align="center">Samba</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
