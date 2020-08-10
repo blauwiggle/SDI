@@ -33,8 +33,8 @@ apt-get install samba</screen>Then we had to set a password for our user in
     <para>We created a backup config of the original config file in order to
     be able to restore it in case anything goes wrong:</para>
 
-    <para><screen>cp /etc/samba/smb.conf /usr/share/samba/</screen>Then we
-    edited the config file and added the following code:</para>
+    <para><screen>cp /etc/samba/smb.conf /root/</screen>Then we edited the
+    config file and added the following code:</para>
 
     <para><screen>nano /etc/samba/smb.conf</screen><screen>[sambashare]
 path = /root/sambashare
