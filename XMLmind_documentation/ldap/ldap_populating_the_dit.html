@@ -1,0 +1,68 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Populating the DIT</title><link rel="stylesheet" type="text/css" href="html.css"><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Chapter&nbsp;1.&nbsp;LDAP"><link rel="up" href="index.html" title="Chapter&nbsp;1.&nbsp;LDAP"><link rel="prev" href="ldap_set_up_an_openldap_server.html" title="2.&nbsp;Set up an OpenLdap server"><link rel="next" href="ldap_testing_a_bind_operation_as_non_admin_user.html" title="4.&nbsp;Testing a bind operation as non - admin user"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Populating the DIT</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ldap_set_up_an_openldap_server.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ldap_testing_a_bind_operation_as_non_admin_user.html"><img src="images/next.svg" alt="Next"></a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ldap_populating_the_dit"></a>3.&nbsp;Populating the DIT</h2></div></div></div><p>We populated our server with test data as described on the respective <a class="link" href="https://freedocs.mi.hdm-stuttgart.de/ldapCompanyLdif.html" target="_top">slide</a> in <a class="link" href="https://freedocs.mi.hdm-stuttgart.de/" target="_top">freedocs</a> using the Apache Directory Studio. The export dump after doing this looked as follows:</p><pre class="screen">version: 1
+
+dn: dc=betrayer,dc=com
+objectClass: dcObject
+objectClass: organization
+objectClass: top
+dc: betrayer
+o: betrayerOrg
+
+dn: cn=admin,dc=betrayer,dc=com
+objectClass: organizationalRole
+objectClass: simpleSecurityObject
+cn: admin
+userPassword:: e1NTSEF9OVNyTE5xNytTRDd1aWxBMXp0UFBMWS9GbENpNzdpUXg=
+description: LDAP administrator
+
+dn: ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: departments
+
+dn: ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: software
+
+dn: ou=financial,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: financial
+
+dn: ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: devel
+
+dn: ou=testing,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: testing
+
+dn: uid=bean,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Jim Bean
+sn: Bean
+givenName: Jim
+mail: bean@betrayer.com
+uid: bean
+userPassword:: ZTNOdFpEVjlZVmhLTDJKbFZrRjJURFJFTms5cE1GUkxjRGhqTTNvdllUWlFae
+ kJYZUhBPQ==
+
+dn: uid=smith,ou=devel,ou=software,ou=departments,dc=betrayer,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Anne Smith
+sn: Smith
+givenName: Anne
+mail: smith@betrayer.com
+uid: smith
+userPassword:: ZHNnb2lqczk4Ji8oM2huN2YzUisjMyMrwqcoKcKnej05acKnOXpoYzg5N3o3
+</pre></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ldap_set_up_an_openldap_server.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ldap_testing_a_bind_operation_as_non_admin_user.html"><img src="images/next.svg" alt="Next"></a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Set up an OpenLdap server&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/home.svg" alt="Home"></a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Testing a bind operation as non - admin user</td></tr></table></div></body></html>
