@@ -10,8 +10,86 @@
          xmlns:db="http://docbook.org/ns/docbook">
   <title>DNS-bind</title>
 
+  <section xml:id="querying_dns_data">
+    <title>Querying DNS data</title>
+
+    <para>Example for a dig query:</para>
+
+    <screen>dig tagesschau.de</screen>
+
+    <screen>; &lt;&lt;&gt;&gt; DiG 9.10.3-P4-Debian &lt;&lt;&gt;&gt; tagesschau.de
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 10316
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 5
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;tagesschau.de.                 IN      A
+
+;; ANSWER SECTION:
+tagesschau.de.          86400   IN      A       88.215.213.26
+
+;; AUTHORITY SECTION:
+tagesschau.de.          86400   IN      NS      ns5.dunkel.de.
+tagesschau.de.          86400   IN      NS      ns1.dunkel.de.
+
+;; ADDITIONAL SECTION:
+ns1.dunkel.de.          86400   IN      A       88.215.197.5
+ns1.dunkel.de.          86400   IN      AAAA    2001:14c0:1001:1::5
+ns5.dunkel.de.          86400   IN      A       88.215.228.5
+ns5.dunkel.de.          86400   IN      AAAA    2001:14c0:9001:1::5
+
+;; Query time: 21 msec
+;; SERVER: 141.62.64.21#53(141.62.64.21)
+;; WHEN: Mon Aug 10 15:43:02 CEST 2020
+;; MSG SIZE  rcvd: 189
+</screen>
+
+    <para>Reverse lookup:</para>
+
+    <screen>dig -x 141.62.1.53</screen>
+
+    <screen>; &lt;&lt;&gt;&gt; DiG 9.10.3-P4-Debian &lt;&lt;&gt;&gt; -x 141.62.1.53
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 26454
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 5, ADDITIONAL: 8
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;53.1.62.141.in-addr.arpa.      IN      PTR
+
+;; ANSWER SECTION:
+53.1.62.141.in-addr.arpa. 3600  IN      PTR     iz-www-2.hdm-stuttgart.de.
+
+;; AUTHORITY SECTION:
+62.141.in-addr.arpa.    80951   IN      NS      dns1.belwue.de.
+62.141.in-addr.arpa.    80951   IN      NS      iz-net-3.hdm-stuttgart.de.
+62.141.in-addr.arpa.    80951   IN      NS      dns3.belwue.de.
+62.141.in-addr.arpa.    80951   IN      NS      iz-net-4.hdm-stuttgart.de.
+62.141.in-addr.arpa.    80951   IN      NS      iz-net-2.hdm-stuttgart.de.
+
+;; ADDITIONAL SECTION:
+dns1.belwue.de.         74990   IN      A       129.143.2.10
+dns1.belwue.de.         74990   IN      AAAA    2001:7c0::53:10
+dns3.belwue.de.         74990   IN      A       129.143.253.133
+dns3.belwue.de.         74990   IN      AAAA    2001:7c0:0:253::133
+iz-net-2.hdm-stuttgart.de. 74304 IN     A       141.62.1.2
+iz-net-3.hdm-stuttgart.de. 74304 IN     A       141.62.1.3
+iz-net-4.hdm-stuttgart.de. 74304 IN     A       141.62.1.4
+
+;; Query time: 2 msec
+;; SERVER: 141.62.64.21#53(141.62.64.21)
+;; WHEN: Mon Aug 10 15:56:14 CEST 2020
+;; MSG SIZE  rcvd: 342
+</screen>
+  </section>
+
   <section xml:id="dns_bind_installing_bind9">
-    <title>Installing bind9</title>
+    <title>Installing Bind</title>
 
     <para>We had to install the server and it's utilities to run the bind9 DNS
     server.</para>
@@ -20,7 +98,7 @@
   </section>
 
   <section xml:id="dns_bind_change_default_and_global_options">
-    <title>Change default and global options</title>
+    <title>Changing default and global options</title>
 
     <para>We changed the default configuration in
     <filename>/etc/default/bind9</filename> to run the server in IPv4 -4 mode

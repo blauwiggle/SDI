@@ -523,8 +523,9 @@ var toc_entries = [
 ["Credentials","credentials.html",null]
 ]],
 ["DNS-bind","dns_bind.html",[
-["Installing bind9","dns_bind_installing_bind9.html",null],
-["Change default and global options","dns_bind_change_default_and_global_options.html",null],
+["Querying DNS data","querying_dns_data.html",null],
+["Installing Bind","dns_bind_installing_bind9.html",null],
+["Changing default and global options","dns_bind_change_default_and_global_options.html",null],
 ["Zones configuration","dns_bind_zones_configuration.html",null],
 ["Error handling","dns_bind_error_handling.html",null],
 ["Tests","dns_bind_tests.html",[
@@ -570,7 +571,9 @@ var toc_entries = [
 ["Difficulties","filecloud_difficulties.html",null]
 ]],
 ["Network file systems served by Samba","samba.html",[
-["","placeholder2.html",null]
+["Creating a Network Share","placeholder2.html",null],
+["Testing our share definitions using smbclient","ch06s02.html",null],
+["Mounting our share from a remote client","ch06s03.html",null]
 ]]
 ]]];
 var toc_initiallyCollapsed = false;
@@ -846,7 +849,7 @@ message = translation[index];
 }
 return message;
 }
-var storageId = "qizoi34zs59q";
+var storageId = "7zkt70ixh76f-1rk9j4bajpuav";
 function storageSet(key, value) {
 window.sessionStorage.setItem(key + storageId, String(value));
 }
@@ -1113,9 +1116,7 @@ var fallback = true;
 var word = words[i];
 if (wh.search_stemmer !== null && 
 word.search(/^[-+]?\d/) < 0) { 
-wh.search_stemmer.setCurrent(word);
-wh.search_stemmer.stem();
-var stem = wh.search_stemmer.getCurrent();
+var stem = wh.search_stemmer.stemWord(word);
 if (stem != word) {
 indices = wh.search_wordMap[stem];
 if (indices !== undefined) {
