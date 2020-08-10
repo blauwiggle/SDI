@@ -10,7 +10,7 @@
          xmlns:db="http://docbook.org/ns/docbook">
   <title>Network file systems served by Samba</title>
 
-  <section xml:id="creating_a_network_share">
+  <section xml:id="samba_creating_a_network_share">
     <title>Creating a Network Share</title>
 
     <para>First we needed to install samba itself. This was accomplished by
@@ -105,7 +105,7 @@ Press enter to see a dump of your service definitions
 </screen></para>
   </section>
 
-  <section xml:id="testing_share_definitions">
+  <section xml:id="samba_testing_share_definitions">
     <title>Testing share definitions using smbclient</title>
 
     <para>We first installed smbclient:</para>
@@ -145,7 +145,7 @@ Domain=[WORKGROUP] OS=[Windows 6.1] Server=[Samba 4.5.16-Debian]
     client.</para>
   </section>
 
-  <section xml:id="mounting_share">
+  <section xml:id="samba_mounting_share">
     <title>Mounting share from a remote client</title>
 
     <para>We could remotely mount our share with the following command:</para>

@@ -10,7 +10,7 @@
          xmlns:db="http://docbook.org/ns/docbook">
   <title>Overview</title>
 
-  <section xml:id="software_distribution">
+  <section xml:id="overview_software_distribution">
     <title>Software distribution on the servers</title>
 
     <table>
@@ -60,7 +60,7 @@
     </table>
   </section>
 
-  <section xml:id="credentials">
+  <section xml:id="overview_credentials">
     <title>Credentials</title>
 
     <para>The following table gives an overview over the credentials we

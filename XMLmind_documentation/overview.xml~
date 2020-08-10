@@ -100,7 +100,7 @@
             <entry align="center">LDAP server
             (sdi8a.mi.hdm-stuttgart.de)</entry>
 
-            <entry align="center">root</entry>
+            <entry align="center">admin</entry>
 
             <entry align="center">sdi8a</entry>
           </row>
@@ -109,7 +109,7 @@
             <entry align="center">LDAP server
             (sdi8b.mi.hdm-stuttgart.de)</entry>
 
-            <entry align="center">root</entry>
+            <entry align="center">admin</entry>
 
             <entry align="center">sdi8b</entry>
           </row>

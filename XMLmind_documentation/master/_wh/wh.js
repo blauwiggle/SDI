@@ -519,11 +519,11 @@ var wh = (function () {
 var toc_entries = [
 ["Documentation &quot;Software Defined Infrastructure&quot; in summer term 2020 (Group 8)","index.html",[
 ["Overview","overview.html",[
-["Software distribution on the servers","software_distribution.html",null],
-["Credentials","credentials.html",null]
+["Software distribution on the servers","overview_software_distribution.html",null],
+["Credentials","overview_credentials.html",null]
 ]],
 ["DNS-bind","dns_bind.html",[
-["Querying DNS data","querying_dns_data.html",null],
+["Querying DNS data","dns_querying_dns_data.html",null],
 ["Installing Bind","dns_bind_installing_bind9.html",null],
 ["Changing default and global options","dns_bind_change_default_and_global_options.html",null],
 ["Zones configuration","dns_bind_zones_configuration.html",null],
@@ -546,6 +546,10 @@ var toc_entries = [
 ["Extending an existing entry","ldap_extending_an_existing_entry.html",null],
 ["LDAP based user login","ldap_ldap_based_user_login.html",null],
 ["Backup and recovery / restore","ldap_backup_and_restore.html",null],
+["Replication","ldap_replication.html",[
+["Configuring the Master","ldap_replication_configuration_master.html",null],
+["Configuring the Client","ldap_replication_configuration_client.html",null]
+]],
 ["Accessing LDAP by a Python Application","ldap_ldap_python.html",null]
 ]],
 ["Apache Web Server","apache.html",[
@@ -571,9 +575,9 @@ var toc_entries = [
 ["Difficulties","filecloud_difficulties.html",null]
 ]],
 ["Network file systems served by Samba","samba.html",[
-["Creating a Network Share","placeholder2.html",null],
-["Testing our share definitions using smbclient","ch06s02.html",null],
-["Mounting our share from a remote client","ch06s03.html",null]
+["Creating a Network Share","samba_creating_a_network_share.html",null],
+["Testing share definitions using smbclient","samba_testing_share_definitions.html",null],
+["Mounting share from a remote client","samba_mounting_share.html",null]
 ]]
 ]]];
 var toc_initiallyCollapsed = false;
@@ -849,7 +853,7 @@ message = translation[index];
 }
 return message;
 }
-var storageId = "7zkt70ixh76f-1rk9j4bajpuav";
+var storageId = "b73bhd351nqa-11bgfokpaxaeg";
 function storageSet(key, value) {
 window.sessionStorage.setItem(key + storageId, String(value));
 }

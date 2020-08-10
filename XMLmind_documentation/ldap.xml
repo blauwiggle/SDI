@@ -408,14 +408,14 @@ chown -R openldap:openldap /var/lib/ldap</screen>
     <screen>service slapd start</screen>
   </section>
 
-  <section xml:id="replication">
+  <section xml:id="ldap_replication">
     <title>Replication</title>
 
     <para>We needed to create a master and a client configuration in order to
     replicate the LDAP server while the master is the initial server and the
     client is the replica.</para>
 
-    <section xml:id="configuration_master">
+    <section xml:id="ldap_replication_configuration_master">
       <title>Configuring the Master</title>
 
       <para>First we created the master configuration file which contains the
@@ -451,7 +451,7 @@ olcOverlay: syncprov</screen>We applied the changes from the configuration
       <para><screen>ldapmodify -x -D "cn=admin,dc=betrayer,dc=com" -w sdi8a -H ldap:// -f ~/modify_master.ldif</screen></para>
     </section>
 
-    <section xml:id="configuration_client">
+    <section xml:id="ldap_replication_configuration_client">
       <title>Configuring the Client</title>
 
       <para>After configuring the master we created a configuration file for

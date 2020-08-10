@@ -411,14 +411,14 @@ chown -R openldap:openldap /var/lib/ldap</screen>
   <section xml:id="replication">
     <title>Replication</title>
 
-    <para>We needed to create a Master and a Client Configuration in order to
-    replicate the LDAP-Server while the Master is the initial Server and the
-    Client is the replica.</para>
+    <para>We needed to create a master and a client configuration in order to
+    replicate the LDAP server while the master is the initial server and the
+    client is the replica.</para>
 
     <section xml:id="configuration_master">
       <title>Configuring the Master</title>
 
-      <para>First we created the Master Configuration file which contains the
+      <para>First we created the master configuration file which contains the
       following content:</para>
 
       <para><screen># activate sync-module
@@ -433,14 +433,14 @@ changetype: modify
 add: olcDbIndex
 olcDbIndex: entryUUID,entryCSN eq
 
-# activate sync-Provider for LDAP-Database
+# activate sync-provider for LDAP database
 dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
 changetype: add
 objectClass: olcOverlayConfig
 objectClass: olcSyncProvConfig
 olcOverlay: syncprov
 
-# activate sync-Provider for LDAP-Configuration
+# activate sync-Provider for LDAP configuration
 dn: olcOverlay=syncprov,olcDatabase={0}config,cn=config
 changetype: add
 objectClass: olcOverlayConfig
@@ -454,8 +454,8 @@ olcOverlay: syncprov</screen>We applied the changes from the configuration
     <section xml:id="configuration_client">
       <title>Configuring the Client</title>
 
-      <para>After configuring the Master we created a configuration file for
-      the Client which contained the following content:</para>
+      <para>After configuring the master we created a configuration file for
+      the client which contained the following content:</para>
 
       <screen># activate sync-module
 dn: cn=module{0},cn=config
@@ -469,7 +469,7 @@ changetype: modify
 add: olcDbIndex
 olcDbIndex: entryUUID,entryCSN eq
 
-# activate Database-Replication
+# activate database-replication
 dn: olcDatabase={1}mdb,cn=config
 changetype: modify
 add: olcSyncrepl
@@ -485,7 +485,7 @@ olcSyncrepl: {0}rid=2 provider=ldap://sdi8a.mi.hdm-stuttgart.de
   schemachecking=off
   searchbase="dc=betrayer,dc=com"
 
-# activate Configuration-Replication
+# activate configuration-replication
 dn: olcDatabase={0}config,cn=config
 changetype: modify
 add: olcSyncrepl
@@ -502,9 +502,13 @@ olcSyncrepl: {0}rid=1 provider=ldap://sdi8a.mi.hdm-stuttgart.de
   searchbase="cn=config"</screen>
 
       <para>We applied the changes from the configuration file by using the
-      following command: </para>
+      following command:</para>
 
       <screen>ldapmodify -x -D "cn=admin,dc=betrayer,dc=com" -w sdi8b -H ldap:// -f ~/modify_client.ldif</screen>
+
+      <para>After setting up both configurations we tried adding a new entry
+      to the master and checked whether it would appear on the client or not.
+      The new entry appeared on the client which means the sync works.</para>
     </section>
   </section>
 

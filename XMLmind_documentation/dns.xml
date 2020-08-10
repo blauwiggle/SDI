@@ -10,7 +10,7 @@
          xmlns:db="http://docbook.org/ns/docbook">
   <title>DNS-bind</title>
 
-  <section xml:id="querying_dns_data">
+  <section xml:id="dns_querying_dns_data">
     <title>Querying DNS data</title>
 
     <para>Example for a dig query:</para>
