@@ -45,7 +45,64 @@ read only = no</screen>A restart of the service is required to make changes
     <para><screen>service smbd restart</screen>Then we checked the validity of
     our config syntax with the following command:</para>
 
-    <para><screen>testparm</screen></para>
+    <para><screen>testparm</screen>Output:</para>
+
+    <para><screen>Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+WARNING: The "syslog" option is deprecated
+Processing section "[homes]"
+Processing section "[printers]"
+Processing section "[print$]"
+Processing section "[sambashare]"
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+
+Press enter to see a dump of your service definitions
+
+# Global parameters
+[global]
+        log file = /var/log/samba/log.%m
+        max log size = 1000
+        syslog = 0
+        panic action = /usr/share/samba/panic-action %d
+        usershare allow guests = Yes
+        map to guest = Bad User
+        obey pam restrictions = Yes
+        pam password change = Yes
+        passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+        passwd program = /usr/bin/passwd %u
+        server role = standalone server
+        unix password sync = Yes
+        dns proxy = No
+        idmap config * : backend = tdb
+
+
+[homes]
+        comment = Home Directories
+        browseable = No
+        create mask = 0700
+        directory mask = 0700
+        valid users = %S
+
+
+[printers]
+        comment = All Printers
+        path = /var/spool/samba
+        browseable = No
+        printable = Yes
+        create mask = 0700
+
+
+[print$]
+        comment = Printer Drivers
+        path = /var/lib/samba/printers
+
+
+[sambashare]
+        path = /root/sambashare
+        read only = No
+        valid users = root
+</screen></para>
   </section>
 
   <section>
@@ -57,17 +114,41 @@ read only = no</screen>A restart of the service is required to make changes
 
     <para>Then we listed our shares by using smbclient:</para>
 
-    <para><screen>smbclient -L //localhost/root/sambashare -U root</screen>After
-    that we created the file test.txt with a simple message to see if we could
-    access and see the file after mounting the share from a remote
+    <para><screen>smbclient -L //localhost/root/sambashare -U root
+</screen></para>
+
+    <para>Output:</para>
+
+    <screen>WARNING: The "syslog" option is deprecated
+Enter root's password: 
+Domain=[WORKGROUP] OS=[Windows 6.1] Server=[Samba 4.5.16-Debian]
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        print$          Disk      Printer Drivers
+        sambashare      Disk      
+        IPC$            IPC       IPC Service (Samba 4.5.16-Debian)
+        root            Disk      Home Directories
+Domain=[WORKGROUP] OS=[Windows 6.1] Server=[Samba 4.5.16-Debian]
+
+        Server               Comment
+        ---------            -------
+        SDI8B                Samba 4.5.16-Debian
+        SDI9A                Samba 4.5.16-Debian
+
+        Workgroup            Master
+        ---------            -------
+        WORKGROUP            SDI9A</screen>
+
+    <para>After that we created the file test.txt with a simple message to see
+    if we could access and see the file after mounting the share from a remote
     client.</para>
   </section>
 
   <section>
     <title>Mounting our share from a remote client</title>
 
-    <para>After connecting to the HdM VPN we could remotely mount our
-    share:</para>
+    <para>We could remotely mount our share with the following command:</para>
 
     <para><screen>sudo mount -t cifs //sdi8b.mi.hdm-stuttgart.de/root/sambashare /mnt/test -ouser=root</screen>This
     command responded with a password prompt in which we had to insert the
