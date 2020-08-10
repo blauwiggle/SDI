@@ -11,6 +11,74 @@
   <title>Network file systems served by Samba</title>
 
   <section xml:id="placeholder2">
-    <title/>
+    <title>How to Create a Network Share</title>
+
+    <para>First we needed to install samba itself. This was accomplished by
+    the following commands:</para>
+
+    <para><screen><code>apt-get update</code>
+apt-get install samba</screen>Then we had to set a password for our user in
+    Samba with the following command:</para>
+
+    <para><screen><code>smbpasswd </code>-a &lt;user_name&gt;</screen>In our
+    case we used the user root:</para>
+
+    <para><screen>smbpasswd -a root</screen>After running the command a prompt
+    showed up which let us enter the desired password which in our case is
+    sdi8bsamba because we set it up on our b machine.</para>
+
+    <para>The next step was creating a shared directory. We decided to share
+    the directory /usr/share/samba.</para>
+
+    <para>We created a backup config of the original config file in order to
+    be able to restore it in case anything goes wrong:</para>
+
+    <para><screen>cp /etc/samba/smb.conf /usr/share/samba/</screen>Then we
+    edited the config file and added the following code:</para>
+
+    <para><screen>nano /etc/samba/smb.conf</screen><screen>[sambashare]
+path = /root/sambashare
+valid users = root
+read only = no</screen>A restart of the service is required to make changes
+    take effect:</para>
+
+    <para><screen>service smbd restart</screen>Then we checked the validity of
+    our config syntax with the following command:</para>
+
+    <para><screen>testparm</screen></para>
+  </section>
+
+  <section>
+    <title>Testing our share definitions using smbclient</title>
+
+    <para>We first installed smbclient:</para>
+
+    <screen>apt-get install smbclient</screen>
+
+    <para>Then we listed our shares by using smbclient:</para>
+
+    <para><screen>smbclient -L //localhost/root/sambashare -U root</screen>After
+    that we created the file test.txt with a simple message to see if we could
+    access and see the file after mounting the share from a remote
+    client.</para>
+  </section>
+
+  <section>
+    <title>Mounting our share from a remote client</title>
+
+    <para>After connecting to the HdM VPN we could remotely mount our
+    share:</para>
+
+    <para><screen>sudo mount -t cifs //sdi8b.mi.hdm-stuttgart.de/root/sambashare /mnt/test -ouser=root</screen>This
+    command responded with a password prompt in which we had to insert the
+    samba password.</para>
+
+    <para>We could then check the content of the mounted share:</para>
+
+    <para><screen>ls /mnt/test
+test.txt
+
+cat /mnt/test/test.txt
+hallo test samba%</screen></para>
   </section>
 </chapter>
