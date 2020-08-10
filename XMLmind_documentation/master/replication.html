@@ -1,0 +1,69 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>11.&nbsp;Replication</title><link rel="stylesheet" type="text/css" href="html.css"><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Documentation &#34;Software Defined Infrastructure&#34; in summer term 2020 (Group 8)"><link rel="up" href="ldap.html" title="Chapter&nbsp;3.&nbsp;LDAP"><link rel="prev" href="ldap_backup_and_restore.html" title="10.&nbsp;Backup and recovery / restore"><link rel="next" href="ldap_ldap_python.html" title="12.&nbsp;Accessing LDAP by a Python Application"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.&nbsp;Replication</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ldap_backup_and_restore.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;3.&nbsp;LDAP</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ldap_ldap_python.html"><img src="images/next.svg" alt="Next"></a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="replication"></a>11.&nbsp;Replication</h2></div></div></div><p>We needed to create a Master and a Client Configuration in order to replicate the LDAP-Server while the Master is the initial Server and the Client is the replica.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="configuration_master"></a>11.1.&nbsp;Configuring the Master</h3></div></div></div><p>First we created the Master Configuration file which contains the following content:</p><pre class="screen"># activate sync-module
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov.la
+
+# add important replication attributes to the index
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: entryUUID,entryCSN eq
+
+# activate sync-Provider for LDAP-Database
+dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+
+# activate sync-Provider for LDAP-Configuration
+dn: olcOverlay=syncprov,olcDatabase={0}config,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov</pre><p>We applied the changes from the configuration file by using the following command:</p><pre class="screen">ldapmodify -x -D "cn=admin,dc=betrayer,dc=com" -w sdi8a -H ldap:// -f ~/modify_master.ldif</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="configuration_client"></a>11.2.&nbsp;Configuring the Client</h3></div></div></div><p>After configuring the Master we created a configuration file for the Client which contained the following content:</p><pre class="screen"># activate sync-module
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov.la
+
+# add important replication attributes to the index
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: entryUUID,entryCSN eq
+
+# activate Database-Replication
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncrepl
+olcSyncrepl: {0}rid=2 provider=ldap://sdi8a.mi.hdm-stuttgart.de
+  type=refreshOnly
+  bindmethod=simple
+  binddn="cn=admin,dc=betrayer,dc=com"
+  credentials=sdi8a
+  interval="00:00:03:00"
+  retry="30 10 300 +"
+  timeout=1
+  tls_reqcert=never
+  schemachecking=off
+  searchbase="dc=betrayer,dc=com"
+
+# activate Configuration-Replication
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+add: olcSyncrepl
+olcSyncrepl: {0}rid=1 provider=ldap://sdi8a.mi.hdm-stuttgart.de
+  type=refreshOnly
+  bindmethod=simple
+  binddn="cn=admin,dc=betrayer,dc=com"
+  credentials=sdi8a
+  interval="00:00:03:00"
+  retry="30 10 300 +"
+  timeout=1
+  tls_reqcert=never
+  schemachecking=off
+  searchbase="cn=config"</pre><p>We applied the changes from the configuration file by using the following command:</p><pre class="screen">ldapmodify -x -D "cn=admin,dc=betrayer,dc=com" -w sdi8b -H ldap:// -f ~/modify_client.ldif</pre></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ldap_backup_and_restore.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ldap.html"><img src="images/up.svg" alt="Up"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ldap_ldap_python.html"><img src="images/next.svg" alt="Next"></a></td></tr><tr><td width="40%" align="left" valign="top">10.&nbsp;Backup and recovery / restore&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/home.svg" alt="Home"></a></td><td width="40%" align="right" valign="top">&nbsp;12.&nbsp;Accessing LDAP by a Python Application</td></tr></table></div></body></html>

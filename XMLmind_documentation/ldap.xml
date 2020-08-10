@@ -408,6 +408,106 @@ chown -R openldap:openldap /var/lib/ldap</screen>
     <screen>service slapd start</screen>
   </section>
 
+  <section xml:id="replication">
+    <title>Replication</title>
+
+    <para>We needed to create a Master and a Client Configuration in order to
+    replicate the LDAP-Server while the Master is the initial Server and the
+    Client is the replica.</para>
+
+    <section xml:id="configuration_master">
+      <title>Configuring the Master</title>
+
+      <para>First we created the Master Configuration file which contains the
+      following content:</para>
+
+      <para><screen># activate sync-module
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov.la
+
+# add important replication attributes to the index
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: entryUUID,entryCSN eq
+
+# activate sync-Provider for LDAP-Database
+dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+
+# activate sync-Provider for LDAP-Configuration
+dn: olcOverlay=syncprov,olcDatabase={0}config,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov</screen>We applied the changes from the configuration
+      file by using the following command:</para>
+
+      <para><screen>ldapmodify -x -D "cn=admin,dc=betrayer,dc=com" -w sdi8a -H ldap:// -f ~/modify_master.ldif</screen></para>
+    </section>
+
+    <section xml:id="configuration_client">
+      <title>Configuring the Client</title>
+
+      <para>After configuring the Master we created a configuration file for
+      the Client which contained the following content:</para>
+
+      <screen># activate sync-module
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov.la
+
+# add important replication attributes to the index
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: entryUUID,entryCSN eq
+
+# activate Database-Replication
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncrepl
+olcSyncrepl: {0}rid=2 provider=ldap://sdi8a.mi.hdm-stuttgart.de
+  type=refreshOnly
+  bindmethod=simple
+  binddn="cn=admin,dc=betrayer,dc=com"
+  credentials=sdi8a
+  interval="00:00:03:00"
+  retry="30 10 300 +"
+  timeout=1
+  tls_reqcert=never
+  schemachecking=off
+  searchbase="dc=betrayer,dc=com"
+
+# activate Configuration-Replication
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+add: olcSyncrepl
+olcSyncrepl: {0}rid=1 provider=ldap://sdi8a.mi.hdm-stuttgart.de
+  type=refreshOnly
+  bindmethod=simple
+  binddn="cn=admin,dc=betrayer,dc=com"
+  credentials=sdi8a
+  interval="00:00:03:00"
+  retry="30 10 300 +"
+  timeout=1
+  tls_reqcert=never
+  schemachecking=off
+  searchbase="cn=config"</screen>
+
+      <para>We applied the changes from the configuration file by using the
+      following command: </para>
+
+      <screen>ldapmodify -x -D "cn=admin,dc=betrayer,dc=com" -w sdi8b -H ldap:// -f ~/modify_client.ldif</screen>
+    </section>
+  </section>
+
   <section xml:id="ldap_ldap_python">
     <title>Accessing LDAP by a Python Application</title>
 
