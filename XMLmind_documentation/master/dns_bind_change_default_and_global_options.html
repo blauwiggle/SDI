@@ -26,7 +26,7 @@
       </div>
       <div id="wh-separator"></div>
       <div id="wh-content">
-      <header></header><section class="section" id="dns_bind_change_default_and_global_options"><div class="titlepage"><div><div><h2 class="title" style="clear: both">2. Change default and global options</h2></div></div></div><p>We changed the default configuration in /etc/default/bind9 to run the server in IPv4 -4 mode only.</p><pre class="screen">OPTIONS=&quot;-4 -u bind&quot;</pre><p>We updated the global options in <code class="filename">/etc/bind/named.conf.options</code>. The trusted section marks the IP addresses of our SDI servers as trusted. This is important since we only allow recursive requests from trusted IP addresses. See<code class="code"> allow-recursion { trusted; }.</code></p><pre class="screen">acl &quot;trusted&quot; {
+      <header></header><section class="section" id="dns_bind_change_default_and_global_options"><div class="titlepage"><div><div><h2 class="title" style="clear: both">2. Change default and global options</h2></div></div></div><p>We changed the default configuration in <code class="filename">/etc/default/bind9</code> to run the server in IPv4 -4 mode only.</p><pre class="screen">OPTIONS=&quot;-4 -u bind&quot;</pre><p>We updated the global options in <code class="filename">/etc/bind/named.conf.options</code>. The trusted section marks the IP addresses of our SDI servers as trusted. This is important since we only allow recursive requests from trusted IP addresses. See<code class="code"> allow-recursion { trusted; }.</code></p><pre class="screen">acl &quot;trusted&quot; {
         141.62.75.108;    # a server
         141.62.75.121;    # b server
 };

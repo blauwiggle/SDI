@@ -22,8 +22,9 @@
   <section xml:id="dns_bind_change_default_and_global_options">
     <title>Change default and global options</title>
 
-    <para>We changed the default configuration in /etc/default/bind9 to run
-    the server in IPv4 -4 mode only.</para>
+    <para>We changed the default configuration in
+    <filename>/etc/default/bind9</filename> to run the server in IPv4 -4 mode
+    only.</para>
 
     <screen>OPTIONS="-4 -u bind"</screen>
 

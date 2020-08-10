@@ -66,7 +66,7 @@ apt install apache2</screen>Then we accessed our domain in the browser to make
 &lt;Directory /home/sdidoc&gt;
     Require all granted
 &lt;/Directory&gt;                                                                                                     </screen>We
-    enabled the configuration file with the command<filename> <emphasis
+    enabled the configuration file with the command <filename> <emphasis
     role="bold">a2ensite
     sdi8b.mi.hdm-stuttgart.de.conf</emphasis></filename>.</para>
   </section>
