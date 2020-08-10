@@ -300,7 +300,7 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
   </section>
 
   <section xml:id="apache_ldap_web_user_management">
-    <title>Providing WEB based user management to your LDAP Server</title>
+    <title>Providing WEB based user management to our LDAP Server</title>
 
     <para>We installed the ldap-account-manager:</para>
 

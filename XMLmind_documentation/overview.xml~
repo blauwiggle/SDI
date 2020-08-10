@@ -54,7 +54,7 @@
     </table>
   </section>
 
-  <section>
+  <section xml:id="credentials">
     <title>Credentials</title>
 
     <para>The following table gives an overview over the credentials we
