@@ -84,8 +84,10 @@
           <row>
             <entry align="center">sdi8a and sdi8b server</entry>
 
-            <entry align="center" nameend="col3" namest="col2">[Access via SSH
-            and personal key files]</entry>
+            <entry align="center">root</entry>
+
+            <entry align="center">[access via SSH and personal key
+            files]</entry>
           </row>
 
           <row>

@@ -229,11 +229,11 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
   <section xml:id="apache_mysql_database_administration">
     <title>MySQL database administration</title>
 
-    <para>We installed a MySQL DB server next to our Apache Webserver and
-    managed it with phpmyadmin. To do so, we installed the MySQL server and
+    <para>We installed a MariaDB server next to our Apache Webserver and
+    managed it with phpmyadmin. To do so, we installed the MariaDB server and
     phpmyadmin.</para>
 
-    <screen>apt install mysql-server phpmyadmin</screen>
+    <screen>apt install mariadb-server phpmyadmin</screen>
 
     <para>After we executed <emphasis role="bold">dpkg-reconfigure</emphasis>
     <emphasis role="bold">phpmyadmin </emphasis>we followed the guided
@@ -300,7 +300,7 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</screen>
   </section>
 
   <section xml:id="apache_ldap_web_user_management">
-    <title>Providing WEB based user management to your LDAP Server</title>
+    <title>Providing WEB based user management to our LDAP Server</title>
 
     <para>We installed the ldap-account-manager:</para>
 

@@ -553,7 +553,7 @@ var toc_entries = [
 ["SSL / TLS support","apache_ssl_tls_support.html",null],
 ["LDAP authentication","apache_ldap_authentication.html",null],
 ["MySQL database administration","apache_mysql_database_administration.html",null],
-["Providing WEB based user management to your LDAP Server","apache_ldap_web_user_management.html",null],
+["Providing WEB based user management to our LDAP Server","apache_ldap_web_user_management.html",null],
 ["Publish your documentation","apache_publish_documentation.html",null]
 ]],
 ["File cloud","filecloud.html",[
@@ -846,7 +846,7 @@ message = translation[index];
 }
 return message;
 }
-var storageId = "1g8ve0snn9cwe";
+var storageId = "qizoi34zs59q";
 function storageSet(key, value) {
 window.sessionStorage.setItem(key + storageId, String(value));
 }

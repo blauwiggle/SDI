@@ -71,7 +71,7 @@ options {
 
     <para>We set up the forward lookup zone in
     <filename>/etc/bind/zones/db.mi.hdm-stuttgart.de</filename>. This maps
-    hostnames to IPv4 addresses. It is to be mentioned here that you have to
+    host names to IPv4 addresses. It is to be mentioned here that you have to
     increase the serial number of the document each time you save changes.
     Otherwise the changes will not be loaded at the next server reload.</para>
 
