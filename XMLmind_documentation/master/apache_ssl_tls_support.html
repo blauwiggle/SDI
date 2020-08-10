@@ -1,32 +1,6 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8" /><title>3. SSL / TLS support</title><link href="webhelp.css" rel="stylesheet" type="text/css" /><meta content="DocBook XSL Stylesheets V1.79.1" name="generator" /><link href="apache_virtual_hosts.html" rel="prev" title="2. Virtual Hosts" /><link href="apache_ldap_authentication.html" rel="next" title="4. LDAP authentication" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script><script charset="UTF-8" src="_wh/wh.js" type="text/javascript"></script><script charset="UTF-8" defer="defer" src="_wh/search.js" type="text/javascript"></script></head><body>
-    
-
-    <div id="wh-body">
-      <div class="wh-icon-menu" id="wh-menu"></div>
-      <div id="wh-navigation">
-        <ul id="wh-tabs">
-          <li id="wh-toc-tab"><a class="wh-icon-toc" href="#wh-toc-container"></a></li>
-          
-          <li id="wh-search-tab"><a class="wh-icon-search" href="#wh-search-container"></a></li>
-        </ul>
-        <div id="wh-toc-container">
-          <div id="wh-toc-form"><span class="wh-icon-collapse-all" id="wh-toc-collapse-all"></span><span class="wh-icon-expand-all" id="wh-toc-expand-all"></span><span class="wh-toc-spring"></span><span class="wh-icon-previous" id="wh-toc-previous"></span><span class="wh-icon-next" id="wh-toc-next"></span><span class="wh-toc-spring"></span><span class="wh-icon-print" id="wh-toc-print"></span></div>
-          <div id="wh-toc-pane">
-          </div>
-        </div>
-        
-        <div id="wh-search-container">
-          <div id="wh-search-form"><span id="wh-search-group"><span class="wh-icon-search" id="wh-do-search"></span><input id="wh-search-field" type="text" /><span class="wh-icon-cancel" id="wh-cancel-search"></span></span><span class="wh-icon-highlight" id="wh-search-highlight"></span></div>
-          <div id="wh-search-pane">
-            <div id="wh-search-results">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="wh-separator"></div>
-      <div id="wh-content">
-      <header></header><section class="section" id="apache_ssl_tls_support"><div class="titlepage"><div><div><h2 class="title" style="clear: both">3. SSL / TLS support</h2></div></div></div><p>To provide a valid certificate for SSL / TSL, we created our own CA by generating a private key with:</p><pre class="screen">openssl genrsa -out rootCA.key 2048</pre><p> Then we created a certificate for the CA signed with that key:</p><pre class="screen">openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem</pre><p> We uploaded this certificate to our browsers so they would trust them.</p><p>Next, we created a private key for our server:</p><pre class="screen">openssl genrsa -out sdi8b.key 2048</pre><p> From this key, we generated a certificate signing request:</p><pre class="screen">openssl req -new -key sdi8b.key -out sdi8b.csr -config sdi8b-csr.conf</pre><p> Last, we created a valid server certificate from the signing request with:</p><pre class="screen">openssl x509 -req -in sdi8b.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out sdi8b.crt -days 500 -sha256 -extfile ca-csr.conf -extensions v3_req   </pre><p>The contents of the sdi8b-csr.conf and ca-csr.conf files were:</p><pre class="screen">#sdi8b-crs.conf
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;SSL / TLS support</title><link rel="stylesheet" type="text/css" href="html.css"><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="Documentation &#34;Software Defined Infrastructure&#34; in summer term 2020 (Group 8)"><link rel="up" href="apache.html" title="Chapter&nbsp;4.&nbsp;Apache Web Server"><link rel="prev" href="apache_virtual_hosts.html" title="2.&nbsp;Virtual Hosts"><link rel="next" href="apache_ldap_authentication.html" title="4.&nbsp;LDAP authentication"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;SSL / TLS support</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="apache_virtual_hosts.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">Chapter&nbsp;4.&nbsp;Apache Web Server</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="apache_ldap_authentication.html"><img src="images/next.svg" alt="Next"></a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="apache_ssl_tls_support"></a>3.&nbsp;SSL / TLS support</h2></div></div></div><p>To provide a valid certificate for SSL / TSL, we created our own CA by generating a private key with:</p><pre class="screen">openssl genrsa -out rootCA.key 2048</pre><p> Then we created a certificate for the CA signed with that key:</p><pre class="screen">openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem</pre><p> We uploaded this certificate to our browsers so they would trust them.</p><p>Next, we created a private key for our server:</p><pre class="screen">openssl genrsa -out sdi8b.key 2048</pre><p> From this key, we generated a certificate signing request:</p><pre class="screen">openssl req -new -key sdi8b.key -out sdi8b.csr -config sdi8b-csr.conf</pre><p> Last, we created a valid server certificate from the signing request with:</p><pre class="screen">openssl x509 -req -in sdi8b.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out sdi8b.crt -days 500 -sha256 -extfile ca-csr.conf -extensions v3_req   </pre><p>The contents of the sdi8b-csr.conf and ca-csr.conf files were:</p><pre class="screen">#sdi8b-crs.conf
 
 [req]
 distinguished_name = sdi8b.mi.hdm-stuttgart.de
@@ -79,10 +53,10 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</pre><p>We uploaded the server certificate and
     ErrorLog ${APACHE_LOG_DIR}/error.log
  CustomLog ${APACHE_LOG_DIR}/access.log combined
  
- Alias &quot;/doc&quot; &quot;/home/sdidoc&quot;
- Alias &quot;/fs120&quot; &quot;/home/sdidoc&quot;
- Alias &quot;/nv012&quot; &quot;/home/sdidoc&quot;
- Alias &quot;/mv068&quot; &quot;/home/sdidoc&quot;
+ Alias "/doc" "/home/sdidoc"
+ Alias "/fs120" "/home/sdidoc"
+ Alias "/nv012" "/home/sdidoc"
+ Alias "/mv068" "/home/sdidoc"
 &lt;/VirtualHost&gt;
 &lt;Directory /var/www/sdi8b.mi.hdm-stuttgart.de&gt;
     Options Indexes FollowSymLinks
@@ -91,8 +65,4 @@ DNS.1 = sdi8b.mi.hdm-stuttgart.de</pre><p>We uploaded the server certificate and
 &lt;/Directory&gt;
 &lt;Directory /home/sdidoc&gt;
     Require all granted
-&lt;/Directory&gt;</pre><p>Finally, we enabled this site with <span class="command"><strong>a2ensite sdi8b.mi.hdm-stuttgart.de-ssl</strong></span>, restarted our server and now we could access our web server via https.</p></section><footer></footer></div>
-    </div>
-
-    
-  </body></html>
+&lt;/Directory&gt;</pre><p>Finally, we enabled this site with <span class="command"><strong>a2ensite sdi8b.mi.hdm-stuttgart.de-ssl</strong></span>, restarted our server and now we could access our web server via https.</p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="apache_virtual_hosts.html"><img src="images/prev.svg" alt="Prev"></a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="apache.html"><img src="images/up.svg" alt="Up"></a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="apache_ldap_authentication.html"><img src="images/next.svg" alt="Next"></a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Virtual Hosts&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/home.svg" alt="Home"></a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;LDAP authentication</td></tr></table></div></body></html>
